@@ -1,11 +1,11 @@
 # Projeto de Eventos MVC em Node.js com PostgreSQL
 
-Este projeto é um boilerplate básico para uma aplicação Node.js seguindo o padrão MVC (Model-View-Controller), utilizando PostgreSQL como banco de dados.
+Este projeto é um boilerplate básico para uma aplicação Node.js seguindo o padrão MVC (Model-View-Controller), utilizando PostgreSQL como banco de dados. O sistema permite o gerenciamento de eventos, incluindo a criação, visualização, edição e exclusão de eventos, além de permitir a inscrição e visualização dos participantes.
 
 ## Requisitos
 
-- Node.js (versão X.X.X)
-- PostgreSQL (versão X.X.X)
+- Node.js (versão 14 ou superior)
+- PostgreSQL (versão 12 ou superior)
 
 ## Instalação
 
