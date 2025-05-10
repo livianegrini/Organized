@@ -49,7 +49,8 @@ O diagrama de modelo relacional é uma representação visual da estrutura do ba
 
 O modelo físico de banco de dados descreve como os dados serão armazenados e organizados no sistema, focando na eficiência e no desempenho. Ele define a estrutura das tabelas, como as colunas serão armazenadas, a criação de índices para agilizar buscas e a organização dos relacionamentos entre as tabelas. O objetivo principal é garantir que o banco de dados funcione de forma rápida e eficaz, otimizando o acesso e manipulação dos dados.
 
-<a href="../config/db.js>Veja o modelo físico deste projeto</a>
+[eja o modelo físico deste projeto](https://github.com/livianegrini/Organized/blob/main/migrations/202505091133_usuarios.sql)
+
 
 Ter um modelo físico e relacional bem definidos em um projeto de banco de dados é fundamental para garantir a eficiência, escalabilidade e integridade das operações. O modelo físico assegura que os dados sejam armazenados de forma otimizada, melhorando o desempenho das consultas e operações, enquanto o modelo relacional estabelece as conexões lógicas entre as tabelas, garantindo que as informações sejam organizadas de maneira coerente e sem redundâncias. Juntos, esses modelos permitem que o sistema funcione de maneira mais rápida, confiável e fácil de manter, além de facilitar a implementação de futuras modificações ou expansões. Portanto, um bom planejamento e implementação desses modelos são essenciais para o sucesso de qualquer projeto que envolva gerenciamento de dados.
 
