@@ -1,4 +1,4 @@
--- Criação da tabela de usuários
+-- Criação da tabela de usuário
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS usuario (
@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS usuario (
   criado_em TIMESTAMP DEFAULT NOW()
 );
 
+-- Criação da tabela de evento
 CREATE TABLE IF NOT EXISTS evento (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     nome_evento VARCHAR(100) NOT NULL,
@@ -17,6 +18,7 @@ CREATE TABLE IF NOT EXISTS evento (
     descricao TEXT
 );
 
+-- Criação da tabela de inscrição
 CREATE TABLE inscricao (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     data DATE NOT NULL,
