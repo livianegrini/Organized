@@ -25,6 +25,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const routes = require('./routes/usuarioRoutes');
+const eventoRoutes = require('./routes/eventoRoutes');
 
 const app = express();
 const port = 3000;
@@ -35,12 +36,8 @@ app.use(bodyParser.json());
 
 // Usando as rotas definidas
 app.use('/api', routes);
+app.use('/api', eventoRoutes);
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
-
-// const PORT = process.env.PORT || 5432;
-// app.listen(PORT, () => {
-//   console.log(`Servidor rodando em http://localhost:${PORT}`);
-// });

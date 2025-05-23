@@ -26,3 +26,39 @@ Content-Type: application/json
 
 ### Deletar categoria
 DELETE http://localhost:3000/api/usuario/566054c4-c4b8-4ebe-9bfb-b632a3fe1340
+
+
+# Eventos --------------------------------------
+
+### Buscar todas os eventos
+GET http://localhost:3000/api/evento 
+
+### Buscar evento por ID
+GET http://localhost:3000/api/evento/3f3d2143-83f0-4197-9592-bfa509ea3d39
+
+
+### Criar nova categoria
+POST http://localhost:3000/api/evento
+Content-Type: application/json
+
+{
+  "nome_evento": "Fashion Week",
+  "data": "2025-05-25",
+  "local": "São Paulo, Brasil",
+  "descricao": "Desfile de moda em São Paulo"
+}
+
+
+### Atualizar categoria
+PUT http://localhost:3000/api/evento/3f3d2143-83f0-4197-9592-bfa509ea3d39
+Content-Type: application/json
+
+{
+  "nome_evento": "Fashion Week SP",
+  "data": "2025-05-30",
+  "local": "São Paulo, Brasil",
+  "descricao": "Desfile de moda em São Paulo"
+}
+
+### Deletar categoria
+DELETE http://localhost:3000/api/evento/3f3d2143-83f0-4197-9592-bfa509ea3d39
