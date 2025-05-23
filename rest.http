@@ -1,0 +1,28 @@
+### Buscar todas as categorias
+GET http://localhost:3000/api/usuario
+
+### Buscar categoria por ID
+GET http://localhost:3000/api/usuario/8f99dd77-a35d-482e-b93e-87f981d4f77d
+
+### Criar nova categoria
+POST http://localhost:3000/api/usuario
+Content-Type: application/json
+
+{
+  "nome": "Catarina",
+  "email": "catarina@gmail.com",
+  "senha": "1234"
+}
+
+### Atualizar categoria
+PUT http://localhost:3000/api/usuario/566054c4-c4b8-4ebe-9bfb-b632a3fe1340
+Content-Type: application/json
+
+{
+  "nome": "Lívia Negrini",
+  "email": "livia@gmail.com",
+  "senha": "1234"
+}
+
+### Deletar categoria
+DELETE http://localhost:3000/api/usuario/566054c4-c4b8-4ebe-9bfb-b632a3fe1340
