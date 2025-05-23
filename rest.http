@@ -1,10 +1,10 @@
-### Buscar todas as categorias
+### Buscar todas as usuarios
 GET http://localhost:3000/api/usuario
 
-### Buscar categoria por ID
+### Buscar usuario por ID
 GET http://localhost:3000/api/usuario/8f99dd77-a35d-482e-b93e-87f981d4f77d
 
-### Criar nova categoria
+### Criar novo usuario
 POST http://localhost:3000/api/usuario
 Content-Type: application/json
 
@@ -14,7 +14,7 @@ Content-Type: application/json
   "senha": "1234"
 }
 
-### Atualizar categoria
+### Atualizar usuario
 PUT http://localhost:3000/api/usuario/566054c4-c4b8-4ebe-9bfb-b632a3fe1340
 Content-Type: application/json
 
@@ -24,7 +24,7 @@ Content-Type: application/json
   "senha": "1234"
 }
 
-### Deletar categoria
+### Deletar usuario
 DELETE http://localhost:3000/api/usuario/566054c4-c4b8-4ebe-9bfb-b632a3fe1340
 
 
@@ -37,7 +37,7 @@ GET http://localhost:3000/api/evento
 GET http://localhost:3000/api/evento/3f3d2143-83f0-4197-9592-bfa509ea3d39
 
 
-### Criar nova categoria
+### Criar novo evento
 POST http://localhost:3000/api/evento
 Content-Type: application/json
 
@@ -49,7 +49,7 @@ Content-Type: application/json
 }
 
 
-### Atualizar categoria
+### Atualizar evento
 PUT http://localhost:3000/api/evento/3f3d2143-83f0-4197-9592-bfa509ea3d39
 Content-Type: application/json
 
@@ -60,5 +60,40 @@ Content-Type: application/json
   "descricao": "Desfile de moda em São Paulo"
 }
 
-### Deletar categoria
+### Deletar evento
 DELETE http://localhost:3000/api/evento/3f3d2143-83f0-4197-9592-bfa509ea3d39
+
+# Inscrições --------------------------------------
+
+### Buscar todas as inscrições
+GET http://localhost:3000/api/inscricao 
+
+### Buscar inscrição por ID
+GET http://localhost:3000/api/inscricao/24142e39-e9f8-4eda-9626-d99cdb4df100
+
+
+### Criar nova inscrição
+POST http://localhost:3000/api/inscricao
+Content-Type: application/json
+  
+{
+  "data": "2025-05-26",
+  "status": "inativa",
+  "id_usuario": "8f99dd77-a35d-482e-b93e-87f981d4f77d",
+  "id_evento": "2e6889ac-f3ce-4243-b75d-0489d3b7a5a7"
+}
+
+
+### Atualizar inscrição
+PUT http://localhost:3000/api/inscricao/24142e39-e9f8-4eda-9626-d99cdb4df100
+Content-Type: application/json
+
+{
+  "data": "2025-05-26",
+  "status": "ativa",
+  "id_usuario": "8f99dd77-a35d-482e-b93e-87f981d4f77d",
+  "id_evento": "2e6889ac-f3ce-4243-b75d-0489d3b7a5a7"
+}
+
+### Deletar inscrição
+DELETE http://localhost:3000/api/inscricao/0287805f-d341-4393-89eb-11a228621a43
