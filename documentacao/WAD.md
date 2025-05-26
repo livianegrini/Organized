@@ -132,27 +132,35 @@ Uma Web API permite que diferentes sistemas se comuniquem pela internet usando r
 Endpoints são os caminhos da API que realizam ações específicas, como listar usuários ou cadastrar eventos, usando métodos como GET, POST, PUT e DELETE.
 
 Endpoints deste projeto:
+## 👤 Usuários
 
-👤 Usuários
-GET /usuario — Lista todos os usuários
-GET /usuario/:id — Retorna um usuário específico
-POST /usuario — Cria um novo usuário
-PUT /usuario/:id — Atualiza os dados de um usuário
-DELETE /usuario/:id — Deleta um usuário
+- `GET /usuario` — Lista todos os usuários  
+- `GET /usuario/:id` — Retorna um usuário específico  
+- `POST /usuario` — Cria um novo usuário  
+- `PUT /usuario/:id` — Atualiza os dados de um usuário  
+- `DELETE /usuario/:id` — Deleta um usuário  
 
-📅 Eventos
-GET /evento — Lista todos os eventos
-GET /evento/:id — Retorna um evento específico
-POST /evento — Cria um novo evento
-PUT /evento/:id — Atualiza os dados de um evento
-DELETE /evento/:id — Deleta um evento
+---
 
-📝 Inscrições
-GET /inscricao — Lista todas as inscrições
-GET /inscricao/:id — Retorna uma inscrição específica
-POST /inscricao — Cria uma nova inscrição
-PUT /inscricao/:id — Atualiza uma inscrição
-DELETE /inscricao/:id — Deleta uma inscrição
+## 📅 Eventos
+
+- `GET /evento` — Lista todos os eventos  
+- `GET /evento/:id` — Retorna um evento específico  
+- `POST /evento` — Cria um novo evento  
+- `PUT /evento/:id` — Atualiza os dados de um evento  
+- `DELETE /evento/:id` — Deleta um evento  
+
+---
+
+## 📝 Inscrições
+
+- `GET /inscricao` — Lista todas as inscrições  
+- `GET /inscricao/:id` — Retorna uma inscrição específica  
+- `POST /inscricao` — Cria uma nova inscrição  
+- `PUT /inscricao/:id` — Atualiza uma inscrição  
+- `DELETE /inscricao/:id` — Deleta uma inscrição  
+
+Usar uma Web API com endpoints organizados facilita a manutenção, o reuso e a escalabilidade do sistema, além de garantir uma comunicação clara entre as partes da aplicação.
 
 ### 3.7 Interface e Navegação (Semana 07)
 
