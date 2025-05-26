@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentação da API</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    code {
+      background-color: #eee;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+
+    section {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📚 Documentação da API</h1>
+  <p><strong>Base URL:</strong> <code>/api</code></p>
+
+  <section>
+    <h2>👤 Usuários</h2>
+    <ul>
+      <li><strong>GET</strong> <code>/usuario</code> — Lista todos os usuários</li>
+      <li><strong>GET</strong> <code>/usuario/:id</code> — Retorna um usuário específico</li>
+      <li><strong>POST</strong> <code>/usuario</code> — Cria um novo usuário</li>
+      <li><strong>PUT</strong> <code>/usuario/:id</code> — Atualiza os dados de um usuário</li>
+      <li><strong>DELETE</strong> <code>/usuario/:id</code> — Deleta um usuário</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📅 Eventos</h2>
+    <ul>
+      <li><strong>GET</strong> <code>/evento</code> — Lista todos os eventos</li>
+      <li><strong>GET</strong> <code>/evento/:id</code> — Retorna um evento específico</li>
+      <li><strong>POST</strong> <code>/evento</code> — Cria um novo evento</li>
+      <li><strong>PUT</strong> <code>/evento/:id</code> — Atualiza os dados de um evento</li>
+      <li><strong>DELETE</strong> <code>/evento/:id</code> — Deleta um evento</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📝 Inscrições</h2>
+    <ul>
+      <li><strong>GET</strong> <code>/inscricao</code> — Lista todas as inscrições</li>
+      <li><strong>GET</strong> <code>/inscricao/:id</code> — Retorna uma inscrição específica</li>
+      <li><strong>POST</strong> <code>/inscricao</code> — Cria uma nova inscrição</li>
+      <li><strong>PUT</strong> <code>/inscricao/:id</code> — Atualiza uma inscrição</li>
+      <li><strong>DELETE</strong> <code>/inscricao/:id</code> — Deleta uma inscrição</li>
+    </ul>
+  </section>
+
+</body>
+
+</html>

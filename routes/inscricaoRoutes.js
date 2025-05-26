@@ -1,9 +1,7 @@
-// routes/index.js
 const express = require('express');
 const router = express.Router();
-const InscricaoController = require('../controllers/InscricaoController');
+const InscricaoController = require('../controllers/inscricaoController');
 
-// Rotas para o CRUD de inscrições
 router.post('/inscricao', InscricaoController.criarInscricao);
 router.get('/inscricao', InscricaoController.listarInscricoes);
 router.get('/inscricao/:id', InscricaoController.listarPorId);

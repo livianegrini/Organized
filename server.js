@@ -1,45 +1,33 @@
-// const express = require('express');
-// const db = require('./config/db');
-// require('dotenv').config();
-
-// const app = express();
-
-// app.get('/', async (req, res) => {
-//   try {
-//     const result = await db.query('SELECT NOW()');
-//     res.send(`Hora atual no banco: ${result.rows[0].now}`);
-//   } catch (err) {
-//     res.status(500).send(`Erro ao conectar com o banco.\n${err}`);
-//   }
-// });
-
-// const PORT = process.env.PORT || 5432;
-// app.listen(PORT, () => {
-//   console.log(`Servidor rodando em http://localhost:${PORT}`);
-// });
-
-// Versão Atual
-// server.js
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const routes = require('./routes/usuarioRoutes');
+require('dotenv').config();
+const path = require('path');
+
+
+const usuarioRoutes = require('./routes/usuarioRoutes');
 const eventoRoutes = require('./routes/eventoRoutes');
 const inscricaoRoutes = require('./routes/inscricaoRoutes');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// Middlewares
+// Middlewares globais
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static('view')); 
 
-// Usando as rotas definidas
-app.use('/api', routes);
+
+// Rotas
+app.use('/api', usuarioRoutes);
 app.use('/api', eventoRoutes);
 app.use('/api', inscricaoRoutes);
 
+// Rota base (opcional)
+app.get('/', (req, res) => {
+  res.send('API de Gerenciamento de Eventos 🚀');
+});
+
 app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
+  console.log(`✅ Servidor rodando na porta ${port}`);
 });

@@ -9,23 +9,23 @@ POST http://localhost:3000/api/usuario
 Content-Type: application/json
 
 {
-  "nome": "Catarina",
-  "email": "catarina@gmail.com",
-  "senha": "1234"
+  "nome": "Gabrielle",
+  "email": "gabrielle@gmail.com",
+  "senha": "123456"
 }
 
 ### Atualizar usuario
-PUT http://localhost:3000/api/usuario/566054c4-c4b8-4ebe-9bfb-b632a3fe1340
+PUT http://localhost:3000/api/usuario/5224309f-202d-4693-bb9a-29ad82145aae
 Content-Type: application/json
 
 {
-  "nome": "Lívia Negrini",
-  "email": "livia@gmail.com",
-  "senha": "1234"
+  "nome": "Gabriele",
+  "email": "gabriele@gmail.com",
+  "senha": "123456"
 }
 
 ### Deletar usuario
-DELETE http://localhost:3000/api/usuario/566054c4-c4b8-4ebe-9bfb-b632a3fe1340
+DELETE http://localhost:3000/api/usuario/1073946d-9a6c-42dc-8882-1f60f057370c
 
 
 # Eventos --------------------------------------
@@ -34,7 +34,7 @@ DELETE http://localhost:3000/api/usuario/566054c4-c4b8-4ebe-9bfb-b632a3fe1340
 GET http://localhost:3000/api/evento 
 
 ### Buscar evento por ID
-GET http://localhost:3000/api/evento/3f3d2143-83f0-4197-9592-bfa509ea3d39
+GET http://localhost:3000/api/evento/2e6889ac-f3ce-4243-b75d-0489d3b7a5a7
 
 
 ### Criar novo evento
@@ -42,15 +42,15 @@ POST http://localhost:3000/api/evento
 Content-Type: application/json
 
 {
-  "nome_evento": "Fashion Week",
+  "nome_evento": "Fashion Year",
   "data": "2025-05-25",
-  "local": "São Paulo, Brasil",
-  "descricao": "Desfile de moda em São Paulo"
+  "local": "Rio de Janeiro, Brasil",
+  "descricao": "Desfile de moda no Rio"
 }
 
 
 ### Atualizar evento
-PUT http://localhost:3000/api/evento/3f3d2143-83f0-4197-9592-bfa509ea3d39
+PUT http://localhost:3000/api/evento/2e6889ac-f3ce-4243-b75d-0489d3b7a5a7
 Content-Type: application/json
 
 {
@@ -61,7 +61,7 @@ Content-Type: application/json
 }
 
 ### Deletar evento
-DELETE http://localhost:3000/api/evento/3f3d2143-83f0-4197-9592-bfa509ea3d39
+DELETE http://localhost:3000/api/evento/002ff5f0-a0ad-40b6-95d1-20a2ed56ab07
 
 # Inscrições --------------------------------------
 
@@ -77,8 +77,8 @@ POST http://localhost:3000/api/inscricao
 Content-Type: application/json
   
 {
-  "data": "2025-05-26",
-  "status": "inativa",
+  "data": "2025-05-27",
+  "status": "Agendado",
   "id_usuario": "8f99dd77-a35d-482e-b93e-87f981d4f77d",
   "id_evento": "2e6889ac-f3ce-4243-b75d-0489d3b7a5a7"
 }
@@ -90,10 +90,10 @@ Content-Type: application/json
 
 {
   "data": "2025-05-26",
-  "status": "ativa",
+  "status": "Confirmado",
   "id_usuario": "8f99dd77-a35d-482e-b93e-87f981d4f77d",
   "id_evento": "2e6889ac-f3ce-4243-b75d-0489d3b7a5a7"
 }
 
 ### Deletar inscrição
-DELETE http://localhost:3000/api/inscricao/0287805f-d341-4393-89eb-11a228621a43
+DELETE http://localhost:3000/api/inscricao/24142e39-e9f8-4eda-9626-d99cdb4df100
