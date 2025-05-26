@@ -66,7 +66,40 @@ Ter modelos relacional, lógico e físico bem definidos em um projeto de banco d
 
 
 ### 3.1.1 BD e Models (Semana 5)
-*Descreva aqui os Models implementados no sistema web*
+Models são responsáveis por representar e estruturar os dados da aplicação. Eles definem as regras, os formatos e as validações necessárias para garantir que as informações manipuladas no sistema estejam corretas e consistentes. Em sistemas baseados em camadas, os models servem como base para a lógica de negócios, facilitando o controle e a manutenção dos dados.
+
+Models desse projeto:
+
+Model Evento (models/eventoModel.js):
+Validação de dados utilizando a biblioteca Joi para garantir integridade nas operações de criação e edição de eventos.
+
+Campos:
+- id: número inteiro positivo (opcional).
+- nome_evento: string obrigatória (mín. 3 caracteres).
+- data: data obrigatória no formato ISO.
+- local: string obrigatória (mín. 3 caracteres).
+- descricao: string opcional.
+
+Model Inscrição (models/inscricao.js):
+Classe que representa uma inscrição feita por um usuário em um evento.
+
+Atributos:
+- id: identificador da inscrição.
+- data: data da inscrição.
+- status: status atual (ex: confirmada, pendente).
+- id_usuario: identificador do usuário inscrito.
+- id_evento: identificador do evento vinculado.
+
+Model Usuário (models/usuarioModel.js):
+Classe de validação com Joi para dados de usuários no momento de cadastro ou edição.
+
+Campos:
+- id: número inteiro positivo.
+- nome: string obrigatória (mín. 3 caracteres).
+- email: string obrigatória no formato de e-mail.
+- senha: string obrigatória (mín. 6 caracteres).
+
+O uso de models no sistema permite uma separação clara de responsabilidades, mantendo a lógica de dados isolada e validada. Isso aumenta a confiabilidade da aplicação, facilita futuras manutenções e garante que apenas informações coerentes sejam processadas. 
 
 ### 3.2. Arquitetura (Semana 5)
 
@@ -94,7 +127,32 @@ Ter modelos relacional, lógico e físico bem definidos em um projeto de banco d
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
+Uma Web API permite que diferentes sistemas se comuniquem pela internet usando requisições HTTP. Ela conecta o frontend ao backend para enviar e receber dados.
+
+Endpoints são os caminhos da API que realizam ações específicas, como listar usuários ou cadastrar eventos, usando métodos como GET, POST, PUT e DELETE.
+
+Endpoints deste projeto:
+
+👤 Usuários
+GET /usuario — Lista todos os usuários
+GET /usuario/:id — Retorna um usuário específico
+POST /usuario — Cria um novo usuário
+PUT /usuario/:id — Atualiza os dados de um usuário
+DELETE /usuario/:id — Deleta um usuário
+
+📅 Eventos
+GET /evento — Lista todos os eventos
+GET /evento/:id — Retorna um evento específico
+POST /evento — Cria um novo evento
+PUT /evento/:id — Atualiza os dados de um evento
+DELETE /evento/:id — Deleta um evento
+
+📝 Inscrições
+GET /inscricao — Lista todas as inscrições
+GET /inscricao/:id — Retorna uma inscrição específica
+POST /inscricao — Cria uma nova inscrição
+PUT /inscricao/:id — Atualiza uma inscrição
+DELETE /inscricao/:id — Deleta uma inscrição
 
 ### 3.7 Interface e Navegação (Semana 07)
 
