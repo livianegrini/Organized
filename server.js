@@ -15,7 +15,12 @@ const port = process.env.PORT || 3000;
 // Middlewares globais
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('view')); 
+// app.use(express.static('view')); 
+
+app.set('views', path.join(__dirname, 'view/pages'));
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Rotas
@@ -25,8 +30,13 @@ app.use('/api', inscricaoRoutes);
 
 // Rota base (opcional)
 app.get('/', (req, res) => {
-  res.send('API de Gerenciamento de Eventos 🚀');
+ res.render('home');
 });
+
+app.get('/cadastro', (req, res) => {
+  res.render('cadastro'); 
+});
+
 
 app.listen(port, () => {
   console.log(`✅ Servidor rodando na porta ${port}`);

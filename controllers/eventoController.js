@@ -1,5 +1,6 @@
 const eventoService = require('../services/eventoService');
 
+
 async function criarEvento(req, res) {
   try {
     const evento = await eventoService.criarEvento(req.body);

@@ -1,0 +1,66 @@
+
+<h2>Lista de Eventos:</h2>
+<!-- <p>Lista de Eventos:</p> -->
+
+<button onclick="cadastrarEvento()">Cadastrar Evento</button>
+
+<table border="1" id="eventosTable">
+  <thead>
+    <tr>
+      <th>nome_evento</th>
+      <th>data</th>
+      <th>local</th>
+      <th>descricao</th>
+      <th><img src="../../assets/lapis.png" alt="Editar" width="20" height="20"></th>
+      <th><img src="../../assets/lixeira.png" alt="Excluir" width="20" height="20"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="3">Carregando eventos...</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+
+  async function fetchEventos() {
+    try {
+      const response = await fetch('/api/evento');
+      if (!response.ok) {
+        throw new Error('Erro ao buscar eventos');
+      }
+      const users = await response.json();
+
+      const tableBody = document.querySelector('#eventosTable tbody');
+      tableBody.innerHTML = ''; // Limpa o conteúdo anterior
+
+      if (users.length > 0) {
+        users.forEach(user => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${user.nome_evento}</td>
+            <td>${user.data}</td>
+            <td>${user.local}</td>
+            <td>${user.descricao}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } else {
+        tableBody.innerHTML = '<tr><td colspan="3">Nenhum usuário encontrado.</td></tr>';
+      }
+    } catch (error) {
+      console.error(error);
+      const tableBody = document.querySelector('#eventosTable tbody');
+      tableBody.innerHTML = '<tr><td colspan="3">Erro ao carregar usuários.</td></tr>';
+    }
+  }
+
+
+  async function cadastrarEvento() {
+    window.location.href = '/cadastro';
+  }
+
+  // Chama a função ao carregar a página
+  fetchEventos();
+</script>

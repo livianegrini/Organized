@@ -42,10 +42,10 @@ POST http://localhost:3000/api/evento
 Content-Type: application/json
 
 {
-  "nome_evento": "Fashion Year",
-  "data": "2025-05-25",
+  "nome_evento": "Copa Inteli",
+  "data": "2025-07-07",
   "local": "Rio de Janeiro, Brasil",
-  "descricao": "Desfile de moda no Rio"
+  "descricao": "Jogos universitários"
 }
 
 

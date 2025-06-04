@@ -1,0 +1,39 @@
+<h2>Cadastrar Eventos</h2>
+
+<form onsubmit="cadastrarEvento();">
+  <input type="text" id="nome_evento" required />
+  <input type="datetime-local" id="data" required />
+  <input type="text" id="local" required />
+  <textarea id="descricao" required></textarea>
+  <button type="submit">Cadastrar</button>
+</form>
+
+<script>
+  async function cadastrarEvento() {
+    const nome_evento = document.querySelector('#nome_evento').value;
+    const data = document.querySelector('#data').value;
+    const local = document.querySelector('#local').value;
+    const descricao = document.querySelector('#descricao').value;
+
+    try {
+      const response = await fetch('/api/evento', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nome_evento, data, local, descricao })
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao cadastrar evento');
+      }
+
+      const result = await response.json();
+      alert('Evento cadastrado com sucesso!');
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+      alert('Erro ao cadastrar evento');
+    }
+  }
+</script>

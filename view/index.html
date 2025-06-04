@@ -79,3 +79,107 @@
 </body>
 
 </html>
+
+<!-- 
+<h2>Página 1</h2>
+<p>Lista de Usuários:</p>
+
+<table border="1" id="usersTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="3">Carregando usuários...</td>
+    </tr>
+  </tbody>
+</table>
+
+<table border="1" id="eventosTable">
+  <thead>
+    <tr>
+      <th>nome_evento</th>
+      <th>data</th>
+      <th>local</th>
+      <th>descricao</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="3">Carregando eventos...</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  // Função para buscar usuários da API e renderizar na tabela
+  // async function fetchUsers() {
+  //   try {
+  //     const response = await fetch('/api/usuario');
+  //     if (!response.ok) {
+  //       throw new Error('Erro ao buscar usuários');
+  //     }
+  //     const users = await response.json();
+
+  //     const tableBody = document.querySelector('#usersTable tbody');
+  //     tableBody.innerHTML = ''; // Limpa o conteúdo anterior
+
+  //     if (users.length > 0) {
+  //       users.forEach(user => {
+  //         const row = document.createElement('tr');
+  //         row.innerHTML = `
+  //           <td>${user.id}</td>
+  //           <td>${user.nome}</td>
+  //           <td>${user.email}</td>
+  //         `;
+  //         tableBody.appendChild(row);
+  //       });
+  //     } else {
+  //       tableBody.innerHTML = '<tr><td colspan="3">Nenhum usuário encontrado.</td></tr>';
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     const tableBody = document.querySelector('#usersTable tbody');
+  //     tableBody.innerHTML = '<tr><td colspan="3">Erro ao carregar usuários.</td></tr>';
+  //   }
+  // }
+
+  async function fetchEventos() {
+    try {
+      const response = await fetch('/api/evento');
+      if (!response.ok) {
+        throw new Error('Erro ao buscar eventos');
+      }
+      const users = await response.json();
+
+      const tableBody = document.querySelector('#eventosTable tbody');
+      tableBody.innerHTML = ''; // Limpa o conteúdo anterior
+
+      if (users.length > 0) {
+        users.forEach(user => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${user.nome_evento}</td>
+            <td>${user.data}</td>
+            <td>${user.local}</td>
+            <td>${user.descricao}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } else {
+        tableBody.innerHTML = '<tr><td colspan="3">Nenhum usuário encontrado.</td></tr>';
+      }
+    } catch (error) {
+      console.error(error);
+      const tableBody = document.querySelector('#eventosTable tbody');
+      tableBody.innerHTML = '<tr><td colspan="3">Erro ao carregar usuários.</td></tr>';
+    }
+  }
+
+  // Chama a função ao carregar a página
+  fetchEventos();
+</script> -->
