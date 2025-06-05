@@ -1,43 +1,37 @@
-<h2>Lista de Eventos:</h2>
+<h2>Lista de Usuários:</h2>
 
-<button onclick="cadastrarEvento()">Cadastrar Evento</button>
+<button onclick="cadastrarEvento()">Cadastrar Usuário</button>
 
-<button onclick="cadastrarUsuario()">Cadastrar Usuario</button>
-
-<table border="1" id="eventosTable">
+<table border="1" id="usuariosTable">
   <thead>
     <tr>
-      <th>nome_evento</th>
-      <th>data</th>
-      <th>local</th>
-      <th>descricao</th>
+      <th>Nome Usuário</th>
+      <th>Email</th>
+      <th>Senha</th>
       <th colspan="2">Ações</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td colspan="6">Carregando eventos...</td>
+      <td colspan="6">Carregando usuários...</td>
     </tr>
   </tbody>
 </table>
 
 <!-- Formulário de edição -->
 <div id="editarEventoContainer" style="display: none; margin-top: 30px;">
-  <h3>Editar Evento</h3>
+  <h3>Editar Usuário</h3>
   <form id="eventoForm" onsubmit="salvarEdicao(event)">
     <input type="hidden" id="eventoId">
 
-    <label>Nome do Evento:</label><br>
+    <label>Nome do Usuário:</label><br>
     <input type="text" id="nome_evento" required><br><br>
 
-    <label>Data:</label><br>
+    <label>Email:</label><br>
     <input type="date" id="data" required><br><br>
 
-    <label>Local:</label><br>
+    <label>Senha:</label><br>
     <input type="text" id="local" required><br><br>
-
-    <label>Descrição:</label><br>
-    <textarea id="descricao" required></textarea><br><br>
 
     <button type="submit">Salvar Alterações</button>
     <button type="button" onclick="cancelarEdicao()">Cancelar</button>
@@ -45,30 +39,29 @@
 </div>
 
 <script>
-  async function listarEventos() {
+  async function listarUsuarios() {
     try {
-      const response = await fetch('/api/evento');
-      if (!response.ok) throw new Error('Erro ao buscar eventos');
+      const response = await fetch('/api/usuario');
+      if (!response.ok) throw new Error('Erro ao buscar usuários');
 
       const users = await response.json();
-      const tableBody = document.querySelector('#eventosTable tbody');
+      const tableBody = document.querySelector('#usuariosTable tbody');
       tableBody.innerHTML = '';
 
       if (users.length > 0) {
         users.forEach(user => {
           const row = document.createElement('tr');
           row.innerHTML = `
-            <td>${user.nome_evento}</td>
-            <td>${user.data}</td>
-            <td>${user.local}</td>
-            <td>${user.descricao}</td>
+            <td>${user.nome}</td>
+            <td>${user.email}</td>
+            <td>${user.senha}</td>
             <td>
               <button onclick="editarEvento('${user.id}')">
                 <img src="../../assets/lapis.png" alt="Editar" width="20" height="20">
               </button>
             </td>
             <td>
-              <button onclick="deletarEvento('${user.id}')">
+              <button onclick="deletarUsuario('${user.id}')">
                 <img src="../../assets/lixeira.png" alt="Excluir" width="20" height="20">
               </button>
             </td>
@@ -76,12 +69,12 @@
           tableBody.appendChild(row);
         });
       } else {
-        tableBody.innerHTML = '<tr><td colspan="6">Nenhum evento encontrado.</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="6">Nenhum usuário encontrado.</td></tr>';
       }
     } catch (error) {
       console.error(error);
-      const tableBody = document.querySelector('#eventosTable tbody');
-      tableBody.innerHTML = '<tr><td colspan="6">Erro ao carregar eventos.</td></tr>';
+      const tableBody = document.querySelector('#usuariosTable tbody');
+      tableBody.innerHTML = '<tr><td colspan="6">Erro ao carregar usuários.</td></tr>';
     }
   }
 
@@ -89,13 +82,9 @@
     window.location.href = '/cadastro';
   }
 
-  async function cadastrarUsuario() {
-    window.location.href = '/homeUsuario';
-  }
-
-  async function deletarEvento(id) {
+  async function deletarUsuario(id) {
     try {
-      const response = await fetch(`/api/evento/${id}`, {
+      const response = await fetch(`/api/usuario/${id}`, {
         method: 'DELETE'
       });
 

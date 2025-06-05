@@ -28,6 +28,7 @@ app.use('/api', usuarioRoutes);
 app.use('/api', eventoRoutes);
 app.use('/api', inscricaoRoutes);
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
 // Rota base (opcional)
 app.get('/', (req, res) => {
  res.render('home');
@@ -36,6 +37,11 @@ app.get('/', (req, res) => {
 app.get('/cadastro', (req, res) => {
   res.render('cadastro'); 
 });
+
+app.get('/homeUsuario', (req, res) => {
+  res.render('homeUsuario'); 
+});
+
 
 
 app.listen(port, () => {
