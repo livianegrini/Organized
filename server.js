@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', usuarioRoutes);
 app.use('/api', eventoRoutes);
 app.use('/api', inscricaoRoutes);
-
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 // Rota base (opcional)
 app.get('/', (req, res) => {
  res.render('home');

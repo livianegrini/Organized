@@ -11,8 +11,6 @@
       <th>data</th>
       <th>local</th>
       <th>descricao</th>
-      <th><img src="../../assets/lapis.png" alt="Editar" width="20" height="20"></th>
-      <th><img src="../../assets/lixeira.png" alt="Excluir" width="20" height="20"></th>
     </tr>
   </thead>
   <tbody>
@@ -24,7 +22,7 @@
 
 <script>
 
-  async function fetchEventos() {
+  async function listarEventos() {
     try {
       const response = await fetch('/api/evento');
       if (!response.ok) {
@@ -37,14 +35,24 @@
 
       if (users.length > 0) {
         users.forEach(user => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${user.nome_evento}</td>
-            <td>${user.data}</td>
-            <td>${user.local}</td>
-            <td>${user.descricao}</td>
-          `;
-          tableBody.appendChild(row);
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${user.nome_evento}</td>
+          <td>${user.data}</td>
+          <td>${user.local}</td>
+          <td>${user.descricao}</td>
+          <td>
+            <button onclick="editarEvento(${user.id})">
+            <img src="../../assets/lapis.png" alt="Editar" width="20" height="20">
+            </button>
+          </td>
+          <td>
+            <button onclick="deletarEvento('${user.id}')">
+            <img src="../../assets/lixeira.png" alt="Excluir" width="20" height="20">
+          </button>
+          </td>
+        `;
+        tableBody.appendChild(row);
         });
       } else {
         tableBody.innerHTML = '<tr><td colspan="3">Nenhum usuário encontrado.</td></tr>';
@@ -61,6 +69,27 @@
     window.location.href = '/cadastro';
   }
 
+  async function deletarEvento(id) {
+  try {
+    const response = await fetch(`/api/evento/${id}`, {
+      method: 'DELETE'
+    });
+
+    const text = await response.text(); // lê sempre como texto
+    console.log('Resposta do DELETE:', text);
+
+    if (!response.ok) {
+      throw new Error('Erro ao excluir evento: ' + text);
+    }
+
+    alert('Evento excluído com sucesso!');
+    listarEventos();
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  }
+}
+
   // Chama a função ao carregar a página
-  fetchEventos();
+  listarEventos();
 </script>
