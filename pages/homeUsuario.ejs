@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Lista de Usuários</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background-color: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    #usuariosTable th,
+    #usuariosTable td {
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .btn-icon {
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    #editarUsuarioContainer {
+      margin-top: 40px;
+      background-color: #f1f1f1;
+      padding: 20px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Lista de Usuários</h2>
+
+    <div class="text-end mb-3">
+      <button class="btn btn-primary" onclick="cadastrarUsuario()">Cadastrar Usuário</button>
+    </div>
+
+    <table class="table table-bordered table-hover" id="usuariosTable">
+      <thead class="table-light">
+        <tr>
+          <th>Nome Usuário</th>
+          <th>Email</th>
+          <th>Senha</th>
+          <th colspan="2">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="5">Carregando usuários...</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Formulário de edição -->
+    <div id="editarUsuarioContainer" style="display: none;">
+      <h4>Editar Usuário</h4>
+      <form id="usuarioForm" onsubmit="salvarEdicao(event)">
+        <input type="hidden" id="usuarioId">
+
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome do Usuário</label>
+          <input type="text" class="form-control" id="nome" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="senha" class="form-label">Senha</label>
+          <input type="text" class="form-control" id="senha" required>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-success w-100">Salvar Alterações</button>
+          <button type="button" class="btn btn-secondary w-100" onclick="cancelarEdicao()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    async function listarUsuarios() {
+      try {
+        const response = await fetch('/api/usuario');
+        if (!response.ok) throw new Error('Erro ao buscar usuários');
+
+        const usuarios = await response.json();
+        const tableBody = document.querySelector('#usuariosTable tbody');
+        tableBody.innerHTML = '';
+
+        if (usuarios.length > 0) {
+          usuarios.forEach(usuario => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${usuario.nome}</td>
+              <td>${usuario.email}</td>
+              <td>${usuario.senha}</td>
+              <td>
+                <button class="btn-icon" onclick="editarUsuario('${usuario.id}')">
+                  <img src="../../assets/lapis.png" alt="Editar" width="24">
+                </button>
+              </td>
+              <td>
+                <button class="btn-icon" onclick="deletarUsuario('${usuario.id}')">
+                  <img src="../../assets/lixeira.png" alt="Excluir" width="24">
+                </button>
+              </td>
+            `;
+            tableBody.appendChild(row);
+          });
+        } else {
+          tableBody.innerHTML = '<tr><td colspan="5">Nenhum usuário encontrado.</td></tr>';
+        }
+      } catch (error) {
+        console.error(error);
+        document.querySelector('#usuariosTable tbody').innerHTML =
+          '<tr><td colspan="5">Erro ao carregar usuários.</td></tr>';
+      }
+    }
+
+    function cadastrarUsuario() {
+      window.location.href = '/cadastroUsuario';
+    }
+
+    async function deletarUsuario(id) {
+      try {
+        const response = await fetch(`/api/usuario/${id}`, { method: 'DELETE' });
+
+        const text = await response.text();
+        if (!response.ok) throw new Error('Erro ao excluir usuário: ' + text);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Excluído',
+          text: 'Usuário excluído com sucesso!',
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        listarUsuarios();
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: error.message || 'Erro ao excluir usuário'
+        });
+      }
+    }
+
+    async function editarUsuario(id) {
+      try {
+        const response = await fetch(`/api/usuario/${id}`);
+        if (!response.ok) throw new Error('Erro ao buscar usuário');
+
+        const usuario = await response.json();
+
+        document.getElementById('usuarioId').value = usuario.id;
+        document.getElementById('nome').value = usuario.nome;
+        document.getElementById('email').value = usuario.email;
+        document.getElementById('senha').value = usuario.senha;
+
+        document.getElementById('editarUsuarioContainer').style.display = 'block';
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Erro ao carregar dados do usuário para edição.'
+        });
+      }
+    }
+
+    async function salvarEdicao(e) {
+      e.preventDefault();
+
+      const id = document.getElementById('usuarioId').value;
+      const nome = document.getElementById('nome').value;
+      const email = document.getElementById('email').value;
+      const senha = document.getElementById('senha').value;
+
+      try {
+        const response = await fetch(`/api/usuario/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, email, senha })
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          throw new Error('Erro ao atualizar usuário: ' + errText);
+        }
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Atualizado',
+          text: 'Usuário atualizado com sucesso!',
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        document.getElementById('usuarioForm').reset();
+        document.getElementById('editarUsuarioContainer').style.display = 'none';
+        listarUsuarios();
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: error.message || 'Erro ao atualizar usuário'
+        });
+      }
+    }
+
+    function cancelarEdicao() {
+      document.getElementById('usuarioForm').reset();
+      document.getElementById('editarUsuarioContainer').style.display = 'none';
+    }
+
+    listarUsuarios();
+  </script>
+</body>
+
+</html>

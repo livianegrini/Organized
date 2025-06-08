@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inscrições</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+  <style>
+    .inscricao-item {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: 0.2s;
+    }
+
+    .inscricao-item:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .form-control {
+      border-radius: 12px;
+    }
+
+    .btn {
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fw-bold">Inscrições</h2>
+      <button class="btn btn-primary" onclick="abrirFormulario()">
+        <i class="bi bi-plus-circle me-2"></i> Nova Inscrição
+      </button>
+    </div>
+
+    <div id="inscricoesContainer">
+      <div class="text-center text-muted">Carregando inscrições...</div>
+    </div>
+
+    <div id="formularioInscricao" class="form-container mt-4" style="display:none;">
+      <h4 class="mb-3">Cadastrar / Editar Inscrição</h4>
+      <form id="inscricaoForm" onsubmit="salvarInscricao(event)">
+        <input type="hidden" id="idInscricao" />
+        <div class="mb-3">
+          <label class="form-label">Status</label>
+          <input type="text" class="form-control" id="status" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">ID do Usuário</label>
+          <input type="text" class="form-control" id="id_usuario" required />
+        </div>
+        <div class="d-flex justify-content-end gap-2">
+          <button type="submit" class="btn btn-success">
+            <i class="bi bi-check-circle"></i> Salvar
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="cancelar()">
+            <i class="bi bi-x-circle"></i> Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    async function listarInscricoes() {
+      try {
+        const response = await fetch(`/api/inscricao`);
+        if (!response.ok) throw new Error('Erro ao buscar inscrições');
+        const inscricoes = await response.json();
+
+        const container = document.getElementById("inscricoesContainer");
+        container.innerHTML = "";
+
+        if (inscricoes.length === 0) {
+          container.innerHTML = "<div class='text-center text-muted'>Nenhuma inscrição encontrada.</div>";
+          return;
+        }
+
+        inscricoes.forEach(inscricao => {
+          const dataFormatada = new Date(inscricao.data).toLocaleString('pt-BR', {
+            dateStyle: 'short',
+            timeStyle: 'short'
+          });
+
+          const item = document.createElement("div");
+          item.className = "inscricao-item d-flex justify-content-between align-items-start flex-wrap";
+          item.innerHTML = `
+            <div>
+              <h5 class="mb-1">${dataFormatada}</h5>
+              <p class="mb-1">
+                <span class="badge bg-warning text-dark">${inscricao.status}</span>
+              </p>
+              <p class="text-muted small mb-0">Usuário: ${inscricao.id_usuario}</p>
+            </div>
+            <div class="d-flex gap-2 mt-2 mt-md-0">
+              <button class="btn btn-sm btn-outline-primary" onclick="editarInscricao('${inscricao.id}')">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deletarInscricao('${inscricao.id}')">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </div>
+          `;
+          container.appendChild(item);
+        });
+
+      } catch (err) {
+        console.error('Erro ao buscar inscrições:', err);
+        document.getElementById("inscricoesContainer").innerHTML =
+          "<div class='text-danger text-center'>Erro ao carregar inscrições</div>";
+      }
+    }
+
+    function abrirFormulario() {
+      document.getElementById("inscricaoForm").reset();
+      document.getElementById("idInscricao").value = '';
+      document.getElementById("formularioInscricao").style.display = 'block';
+    }
+
+    function cancelar() {
+      document.getElementById("inscricaoForm").reset();
+      document.getElementById("formularioInscricao").style.display = 'none';
+    }
+
+    async function salvarInscricao(e) {
+      e.preventDefault();
+
+      const id = document.getElementById("idInscricao").value;
+      const data = new Date().toISOString();
+      const status = document.getElementById("status").value;
+      const id_usuario = document.getElementById("id_usuario").value;
+      const id_evento = localStorage.getItem("id_evento");
+
+      if (!id_evento) {
+        Swal.fire("Erro", "Evento não definido.", "error");
+        return;
+      }
+
+      const payload = { data, status, id_usuario, id_evento };
+      const url = id ? `/api/inscricao/${id}` : `/api/inscricao`;
+      const method = id ? "PUT" : "POST";
+
+      try {
+        const response = await fetch(url, {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error(await response.text());
+
+        Swal.fire("Sucesso", "Inscrição salva com sucesso!", "success");
+        cancelar();
+        listarInscricoes();
+      } catch (error) {
+        console.error(error);
+        Swal.fire("Erro", "Erro ao salvar inscrição.", "error");
+      }
+    }
+
+    async function editarInscricao(id) {
+      try {
+        const response = await fetch(`/api/inscricao/${id}`);
+        if (!response.ok) throw new Error('Erro ao buscar inscrição');
+        const inscricao = await response.json();
+
+        document.getElementById("idInscricao").value = inscricao.id;
+        document.getElementById("status").value = inscricao.status;
+        document.getElementById("id_usuario").value = inscricao.id_usuario;
+        document.getElementById("formularioInscricao").style.display = "block";
+
+      } catch (err) {
+        console.error(err);
+        Swal.fire("Erro", "Erro ao carregar inscrição para edição", "error");
+      }
+    }
+
+    async function deletarInscricao(id) {
+      const result = await Swal.fire({
+        title: 'Tem certeza?',
+        text: "Deseja realmente excluir esta inscrição?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sim, excluir!',
+        cancelButtonText: 'Cancelar'
+      });
+
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`/api/inscricao/${id}`, { method: "DELETE" });
+          if (!response.ok) throw new Error(await response.text());
+
+          Swal.fire("Excluído!", "Inscrição excluída com sucesso!", "success");
+          listarInscricoes();
+        } catch (err) {
+          console.error(err);
+          Swal.fire("Erro", "Erro ao excluir inscrição", "error");
+        }
+      }
+    }
+
+    listarInscricoes();
+  </script>
+</body>
+</html>

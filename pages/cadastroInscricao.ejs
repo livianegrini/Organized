@@ -1,0 +1,51 @@
+<h2>Cadastrar Inscrição</h2>
+
+<form onsubmit="cadastrarInscricao(event)">
+  <p>Data:</p>
+  <input type="date" id="data" required />
+  
+  <p>Status:</p>
+  <input type="text" id="status" required />
+  
+  <p>ID do Usuário:</p>
+  <input type="text" id="id_usuario" required />
+  
+  <button type="submit">Cadastrar</button>
+</form>
+
+<script>
+  async function cadastrarInscricao(e) {
+    e.preventDefault(); // Evita o recarregamento da página
+
+    const data = document.querySelector('#data').value;
+    const status = document.querySelector('#status').value;
+    const id_usuario = document.querySelector('#id_usuario').value;
+    const id_evento = localStorage.getItem('id_evento');
+
+    if (!id_evento) {
+      alert('ID do evento não encontrado. Certifique-se de ter selecionado um evento antes.');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/inscricao', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data, status, id_usuario, id_evento })
+      });
+
+      if (!response.ok) {
+        const erro = await response.text();
+        throw new Error('Erro ao cadastrar inscrição: ' + erro);
+      }
+
+      alert('Inscrição cadastrada com sucesso!');
+      window.location.href = '/inscricoes'; // Redireciona após o cadastro (ajuste conforme sua rota)
+    } catch (error) {
+      console.error(error);
+      alert(error.message || 'Erro ao cadastrar inscrição');
+    }
+  }
+</script>

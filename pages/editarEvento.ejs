@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Editar Evento</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="container py-5">
+  <h2 class="mb-4">Editar Evento</h2>
+
+  <form id="formEditarEvento">
+    <div class="mb-3">
+      <label for="nome_evento" class="form-label">Nome do Evento</label>
+      <input type="text" class="form-control" id="nome_evento" required />
+    </div>
+    <div class="mb-3">
+      <label for="data" class="form-label">Data e Hora</label>
+      <input type="datetime-local" class="form-control" id="data" required />
+    </div>
+    <div class="mb-3">
+      <label for="local" class="form-label">Local</label>
+      <input type="text" class="form-control" id="local" required />
+    </div>
+    <div class="mb-3">
+      <label for="descricao" class="form-label">Descrição</label>
+      <textarea class="form-control" id="descricao" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+  </form>
+
+  <script>
+    // Pega o ID do evento da URL do tipo /editarEvento/:id
+    function obterEventoIdDaURL() {
+      const partes = window.location.pathname.split('/');
+      return partes[2];
+    }
+
+    async function carregarEvento() {
+      try {
+        const eventoId = obterEventoIdDaURL();
+        console.log("ID do evento:", eventoId);
+
+        const response = await fetch(`/api/evento/${eventoId}`);
+        if (!response.ok) throw new Error("Erro ao buscar dados do evento");
+
+        const evento = await response.json();
+        console.log("Dados do evento:", evento);
+
+        document.getElementById('nome_evento').value = evento.nome_evento;
+
+        // Ajusta o formato da data para datetime-local (YYYY-MM-DDTHH:mm)
+        const dataObj = new Date(evento.data);
+        const tzOffset = dataObj.getTimezoneOffset() * 60000;
+        const localISO = new Date(dataObj - tzOffset).toISOString().slice(0, 16);
+        document.getElementById('data').value = localISO;
+
+        document.getElementById('local').value = evento.local;
+        document.getElementById('descricao').value = evento.descricao;
+      } catch (error) {
+        console.error(error);
+        Swal.fire("Erro", error.message, "error").then(() => {
+          window.location.href = "/";
+        });
+      }
+    }
+
+    async function salvarAlteracoes(event) {
+      event.preventDefault();
+
+      const eventoId = obterEventoIdDaURL();
+
+      const dadosAtualizados = {
+        nome_evento: document.getElementById('nome_evento').value.trim(),
+        data: document.getElementById('data').value,
+        local: document.getElementById('local').value.trim(),
+        descricao: document.getElementById('descricao').value.trim(),
+      };
+
+      try {
+        const response = await fetch(`/api/evento/${eventoId}`, {
+          method: 'PUT', // ou PATCH, depende do backend
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dadosAtualizados)
+        });
+
+        if (!response.ok) {
+          // Tenta extrair mensagem de erro da resposta
+          let msg = "Erro ao salvar evento";
+          try {
+            const errData = await response.json();
+            if (errData.message) msg = errData.message;
+          } catch {}
+          throw new Error(msg);
+        }
+
+        Swal.fire('Sucesso', 'Evento atualizado com sucesso!', 'success').then(() => {
+          window.location.href = "/"; // redireciona para a lista ou home
+        });
+      } catch (error) {
+        console.error(error);
+        Swal.fire('Erro', error.message, 'error');
+      }
+    }
+
+    // Configura listener do formulário
+    document.getElementById('formEditarEvento').addEventListener('submit', salvarAlteracoes);
+
+    // Carrega os dados quando a página abrir
+    carregarEvento();
+  </script>
+</body>
+</html>
