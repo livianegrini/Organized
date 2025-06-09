@@ -50,18 +50,35 @@
       height: 36px;
       padding: 0;
     }
+
+    .btn-light {
+      font-weight: 500;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s;
+    }
+
+    .btn-light:hover {
+      background-color: #e2e6ea;
+    }
   </style>
 </head>
 
 <body>
-  <div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="fw-bold">Eventos Disponíveis</h2>
-      <button class="btn btn-primary" onclick="cadastrarEvento()">Cadastrar Evento</button>
-      <button class="btn btn-primary" onclick="cadastrarUsuario()">Cadastrar Usuário</button>
-      <button class="btn btn-primary" onclick="listarInscricoes()">Listar Inscrição</button>
+  <!-- Cabeçalho azul com botões -->
+  <div class="bg-primary text-white p-4 mb-4">
+    <div class="container d-flex flex-wrap justify-content-center justify-content-md-end gap-2">
+      <button class="btn btn-light" onclick="cadastrarEvento()">Cadastrar Evento</button>
+      <button class="btn btn-light" onclick="cadastrarUsuario()">Cadastrar Usuário</button>
+      <button class="btn btn-light" onclick="listarInscricoes()">Listar Inscrição</button>
     </div>
+  </div>
 
+  <div class="container pt-4">
+    <!-- Título principal -->
+    <h2 class="fw-bold text-primary mb-4">Eventos Disponíveis</h2>
+  </div>
+
+  <div class="container pb-5">
     <div class="row" id="eventosContainer">
       <div class="col-12 text-center" id="carregando">
         <span>Carregando eventos...</span>
@@ -83,8 +100,15 @@
 
         const eventosRaw = await response.json();
 
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0); // Zera a hora para considerar só a data
+
         const eventos = eventosRaw
-          .filter(e => isValidDate(new Date(e.data)))
+          .filter(e => {
+            const dataEvento = new Date(e.data);
+            dataEvento.setHours(0, 0, 0, 0);
+            return isValidDate(dataEvento) && dataEvento >= hoje;
+          })
           .sort((a, b) => new Date(a.data) - new Date(b.data));
 
         const container = document.getElementById('eventosContainer');
@@ -103,25 +127,25 @@
             col.className = 'col-md-6 col-lg-4 mb-4';
 
             col.innerHTML = `
-              <div class="evento-card">
-                <div class="evento-data">${dataFormatada}</div>
-                <div class="evento-nome">${evento.nome_evento}</div>
-                <div class="evento-local">${evento.local || '-'}</div>
-                <div class="d-flex justify-content-between align-items-center">
-                  <button class="btn btn-outline-primary btn-sm" onclick="inscrever('${evento.id}')">
-                    Inscrever
-                  </button>
-                  <div>
-                    <button class="btn btn-outline-secondary btn-icon me-2" onclick="editarEvento('${evento.id}')" title="Editar">
-                      <i class="bi bi-pencil-fill"></i>
-                    </button>
-                    <button class="btn btn-outline-danger btn-icon" onclick="deletarEvento('${evento.id}')" title="Excluir">
-                      <i class="bi bi-trash-fill"></i>
-                    </button>
-                  </div>
-                </div>
+          <div class="evento-card">
+            <div class="evento-data">${dataFormatada}</div>
+            <div class="evento-nome">${evento.nome_evento}</div>
+            <div class="evento-local">${evento.local || '-'}</div>
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-outline-primary btn-sm" onclick="inscrever('${evento.id}')">
+                Inscrever
+              </button>
+              <div>
+                <button class="btn btn-outline-secondary btn-icon me-2" onclick="editarEvento('${evento.id}')" title="Editar">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button class="btn btn-outline-danger btn-icon" onclick="deletarEvento('${evento.id}')" title="Excluir">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
               </div>
-            `;
+            </div>
+          </div>
+        `;
             container.appendChild(col);
           });
         } else {
@@ -150,7 +174,7 @@
       window.location.href = `/editarEvento/${id}`;
     }
 
-    async function listarInscricoes(){
+    async function listarInscricoes() {
       window.location.href = '/homeInscricao';
     }
 
@@ -171,18 +195,10 @@
           const response = await fetch(`/api/evento/${id}`, { method: 'DELETE' });
           if (!response.ok) throw new Error(await response.text());
 
-          await Swal.fire(
-            'Excluído!',
-            'Evento deletado com sucesso!',
-            'success'
-          );
+          await Swal.fire('Excluído!', 'Evento deletado com sucesso!', 'success');
           listarEventos();
         } catch (error) {
-          await Swal.fire(
-            'Erro',
-            "Erro ao excluir evento: " + error.message,
-            'error'
-          );
+          await Swal.fire('Erro', "Erro ao excluir evento: " + error.message, 'error');
         }
       }
     }
