@@ -166,6 +166,83 @@ Usar uma Web API com endpoints organizados facilita a manutenção, o reuso e a 
 
 *Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
 
+<div align="center">
+  <sub>Listagem Eventos</sub><br>
+  <img src="../assets/ListagemEventos.png" width="80%" 
+  alt="Página Listagem de Eventos"><br>
+  <sup>Fonte: da própria autora</sup>
+</div>
+
+## Listagem de Eventos
+
+Foi implementada a listagem de eventos disponíveis na tela principal do sistema. Os eventos são exibidos em formato de cards, organizados de forma responsiva e visualmente agradável, seguindo o padrão visual da aplicação.
+
+Cada card de evento contém as seguintes informações e funcionalidades:
+
+- Data do evento (formato amigável com destaque em laranja).
+- Nome do evento (em destaque).
+- Localização (cidade e país).
+- Botão "Inscrever": redireciona o usuário para a página de inscrição, passando o ID do evento automaticamente.
+- Botão de edição (ícone de lápis): permite que o administrador edite as informações do evento.
+- Botão de exclusão (ícone de lixeira): permite que o evento seja removido do sistema.
+
+Além disso, foram adicionados botões fixos no topo da página para facilitar a navegação entre funcionalidades importantes:
+- Cadastrar Evento
+- Cadastrar Usuário
+- Listar Inscrição
+
+<div align="center">
+  <sub>Listagem Inscrições</sub><br>
+  <img src="../assets/ListagemInscricoes.png" width="80%" 
+  alt="Página Listagem Inscrições"><br>
+  <sup>Fonte: da própria autora</sup>
+</div>
+
+### Listagem Incrições:
+
+A tela de inscrições exibe todas as inscrições relacionadas a um evento específico. Ela foi projetada com foco na organização visual e facilidade de acesso às ações de edição e exclusão.
+
+### Informações exibidas por inscrição:
+- Data e Hora da Inscrição
+- Status 
+- ID do Usuário inscrito
+
+### Ações disponíveis:
+- Editar inscrição
+- Excluir inscrição
+- Nova Inscrição
+
+### Navegação:
+- Botão "Voltar" no topo da página retorna à tela anterior.
+
+
+<div align="center">
+  <sub>Listagem Usuários</sub><br>
+  <img src="../assets/ListagemUsuarios.png" width="80%" 
+  alt="Página Listagem de Usuarios"><br>
+  <sup>Fonte: da própria autora</sup>
+</div>
+
+### Listagem Usuários:
+
+A tela de listagem de inscrições apresenta todas as inscrições realizadas para um evento específico. Ela tem como objetivo permitir a visualização das inscrições e a realização de ações como editar, excluir e cadastrar uma nova.
+
+### Informações exibidas em cada inscrição
+- Data e hora da inscrição
+- Status da inscrição 
+- Identificador do usuário inscrito
+- Funcionalidades disponíveis
+- Botão "Nova Inscrição", no canto superior direito, que redireciona para a tela de cadastro de nova inscrição
+- Botão de edição, que leva à tela de edição da inscrição selecionada
+- Botão de exclusão, que remove a inscrição da base de dados 
+- Botão "Voltar", que retorna para a tela anterior
+
+As telas desenvolvidas nesta aplicação foram projetadas para oferecer clareza, usabilidade e integração eficiente com o backend, garantindo uma experiência intuitiva para organizadores e participantes.
+
+A tela de listagem de inscrições apresenta um design moderno e organizado, mostrando informações essenciais como data, horário, status e ID do usuário, além de botões para editar, excluir e navegar facilmente entre as funcionalidades. A tela de inscrição facilita o cadastro dos participantes, com o ID do evento passado automaticamente, garantindo precisão e simplicidade no preenchimento.
+
+No módulo de eventos, as telas de listagem, cadastro e edição exibem informações claras e formulários objetivos, permitindo um gerenciamento ágil e seguro dos eventos. Todas as telas formam um conjunto coerente e funcional, focado na experiência do usuário e na robustez do sistema.
+
 ---
 
 ## <a name="c4"></a>4. Desenvolvimento da Aplicação Web (Semana 8)
