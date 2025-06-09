@@ -1,5 +1,7 @@
+<!-- inscricoes.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <title>Inscrições</title>
@@ -12,64 +14,28 @@
       border-radius: 12px;
       padding: 20px;
       margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       transition: 0.2s;
     }
 
     .inscricao-item:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .form-container {
-      background: #fff;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    .form-control {
-      border-radius: 12px;
-    }
-
-    .btn {
-      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
+
 <body class="bg-light">
   <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fw-bold">Inscrições</h2>
-      <button class="btn btn-primary" onclick="abrirFormulario()">
-        <i class="bi bi-plus-circle me-2"></i> Nova Inscrição
+      <button class="btn btn-primary" onclick="cadastrar()">
+        Nova Inscrição
       </button>
+
     </div>
 
     <div id="inscricoesContainer">
       <div class="text-center text-muted">Carregando inscrições...</div>
-    </div>
-
-    <div id="formularioInscricao" class="form-container mt-4" style="display:none;">
-      <h4 class="mb-3">Cadastrar / Editar Inscrição</h4>
-      <form id="inscricaoForm" onsubmit="salvarInscricao(event)">
-        <input type="hidden" id="idInscricao" />
-        <div class="mb-3">
-          <label class="form-label">Status</label>
-          <input type="text" class="form-control" id="status" required />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">ID do Usuário</label>
-          <input type="text" class="form-control" id="id_usuario" required />
-        </div>
-        <div class="d-flex justify-content-end gap-2">
-          <button type="submit" class="btn btn-success">
-            <i class="bi bi-check-circle"></i> Salvar
-          </button>
-          <button type="button" class="btn btn-secondary" onclick="cancelar()">
-            <i class="bi bi-x-circle"></i> Cancelar
-          </button>
-        </div>
-      </form>
     </div>
   </div>
 
@@ -124,68 +90,12 @@
       }
     }
 
-    function abrirFormulario() {
-      document.getElementById("inscricaoForm").reset();
-      document.getElementById("idInscricao").value = '';
-      document.getElementById("formularioInscricao").style.display = 'block';
+    function editarInscricao(id) {
+      window.location.href = `editarInscricao/${id}`;
     }
 
-    function cancelar() {
-      document.getElementById("inscricaoForm").reset();
-      document.getElementById("formularioInscricao").style.display = 'none';
-    }
-
-    async function salvarInscricao(e) {
-      e.preventDefault();
-
-      const id = document.getElementById("idInscricao").value;
-      const data = new Date().toISOString();
-      const status = document.getElementById("status").value;
-      const id_usuario = document.getElementById("id_usuario").value;
-      const id_evento = localStorage.getItem("id_evento");
-
-      if (!id_evento) {
-        Swal.fire("Erro", "Evento não definido.", "error");
-        return;
-      }
-
-      const payload = { data, status, id_usuario, id_evento };
-      const url = id ? `/api/inscricao/${id}` : `/api/inscricao`;
-      const method = id ? "PUT" : "POST";
-
-      try {
-        const response = await fetch(url, {
-          method,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) throw new Error(await response.text());
-
-        Swal.fire("Sucesso", "Inscrição salva com sucesso!", "success");
-        cancelar();
-        listarInscricoes();
-      } catch (error) {
-        console.error(error);
-        Swal.fire("Erro", "Erro ao salvar inscrição.", "error");
-      }
-    }
-
-    async function editarInscricao(id) {
-      try {
-        const response = await fetch(`/api/inscricao/${id}`);
-        if (!response.ok) throw new Error('Erro ao buscar inscrição');
-        const inscricao = await response.json();
-
-        document.getElementById("idInscricao").value = inscricao.id;
-        document.getElementById("status").value = inscricao.status;
-        document.getElementById("id_usuario").value = inscricao.id_usuario;
-        document.getElementById("formularioInscricao").style.display = "block";
-
-      } catch (err) {
-        console.error(err);
-        Swal.fire("Erro", "Erro ao carregar inscrição para edição", "error");
-      }
+    function cadastrar() {
+      window.location.href = 'cadastroInscricao';
     }
 
     async function deletarInscricao(id) {
@@ -217,4 +127,5 @@
     listarInscricoes();
   </script>
 </body>
+
 </html>

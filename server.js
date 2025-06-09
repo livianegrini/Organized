@@ -46,7 +46,7 @@ app.get('/editarEvento/:id', (req, res) => {
 app.put('/editarEvento/:id', (req, res) => {
   const eventoId = req.params.id; // Pega o ID da URL
   console.log('Recebida requisição PUT para atualizar Evento ID:', eventoId);
-  console.log('Dados recebidos:', req.body); 
+  console.log('Dados recebidos:', req.body);
   res.status(200).send(`Evento ${eventoId} atualizado com sucesso!`);
 });
 
@@ -60,6 +60,20 @@ app.get('/cadastroUsuario', (req, res) => {
 
 app.get('/homeInscricao', (req, res) => {
   res.render('homeInscricao');
+});
+
+app.get('/cadastroInscricao', (req, res) => {
+  res.render('cadastroInscricao');
+});
+
+
+app.get('/editarInscricao/:id', (req, res) => {
+  const inscricaoId = req.params.id;
+  if (!inscricaoId) {
+    return res.status(400).send('ID da inscrição é obrigatório para editar.');
+  }
+  res.render('editarInscricao', { inscricaoId });
+  console.log('Acessando página de edição para a Inscrição ID:', inscricaoId);
 });
 
 app.listen(port, () => {

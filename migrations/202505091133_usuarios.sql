@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS evento (
 -- Criação da tabela de inscrição
 CREATE TABLE inscricao (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    data DATE NOT NULL,
+    data DATE NOT NULL DEFAULT NOW(),
     status VARCHAR(50) NOT NULL, 
     id_usuario UUID NOT NULL,
     id_evento UUID NOT NULL,
