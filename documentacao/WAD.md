@@ -164,7 +164,7 @@ Usar uma Web API com endpoints organizados facilita a manutenção, o reuso e a 
 
 ### 3.7 Interface e Navegação (Semana 07)
 
-Este documento apresenta um panorama geral das telas desenvolvidas para a aplicação de gerenciamento de eventos e inscrições. O objetivo principal foi criar interfaces que proporcionem uma experiência clara, eficiente e amigável para todos os usuários, desde organizadores até participantes. Com foco na usabilidade e na integração direta com o backend, as telas foram elaboradas para facilitar a navegação, o cadastro e o controle das informações, garantindo a segurança e a consistência dos dados ao longo do sistema.
+Este seção apresenta um panorama geral das telas desenvolvidas para a aplicação de gerenciamento de eventos e inscrições. O objetivo principal foi criar interfaces que proporcionem uma experiência clara, eficiente e amigável para todos os usuários, desde organizadores até participantes. Com foco na usabilidade e na integração direta com o backend, as telas foram elaboradas para facilitar a navegação, o cadastro e o controle das informações, garantindo a segurança e a consistência dos dados ao longo do sistema.
 
 ## Listagem de Eventos
 
@@ -192,7 +192,7 @@ Além disso, foram adicionados botões fixos no topo da página para facilitar a
 - Listar Inscrição
 
 
-### Listagem Incrições:
+## Listagem Incrições:
 
 <div align="center">
   <sub>Listagem Inscrições</sub><br>
@@ -216,7 +216,7 @@ A tela de inscrições exibe todas as inscrições relacionadas a um evento espe
 ### Navegação:
 - Botão "Voltar" no topo da página retorna à tela anterior.
 
-### Listagem Usuários:
+## Listagem Usuários:
 
 <div align="center">
   <sub>Listagem Usuários</sub><br>
