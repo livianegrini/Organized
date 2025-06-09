@@ -164,7 +164,9 @@ Usar uma Web API com endpoints organizados facilita a manutenção, o reuso e a 
 
 ### 3.7 Interface e Navegação (Semana 07)
 
-*Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+Este documento apresenta um panorama geral das telas desenvolvidas para a aplicação de gerenciamento de eventos e inscrições. O objetivo principal foi criar interfaces que proporcionem uma experiência clara, eficiente e amigável para todos os usuários, desde organizadores até participantes. Com foco na usabilidade e na integração direta com o backend, as telas foram elaboradas para facilitar a navegação, o cadastro e o controle das informações, garantindo a segurança e a consistência dos dados ao longo do sistema.
+
+## Listagem de Eventos
 
 <div align="center">
   <sub>Listagem Eventos</sub><br>
@@ -172,8 +174,6 @@ Usar uma Web API com endpoints organizados facilita a manutenção, o reuso e a 
   alt="Página Listagem de Eventos"><br>
   <sup>Fonte: da própria autora</sup>
 </div>
-
-## Listagem de Eventos
 
 Foi implementada a listagem de eventos disponíveis na tela principal do sistema. Os eventos são exibidos em formato de cards, organizados de forma responsiva e visualmente agradável, seguindo o padrão visual da aplicação.
 
@@ -191,14 +191,15 @@ Além disso, foram adicionados botões fixos no topo da página para facilitar a
 - Cadastrar Usuário
 - Listar Inscrição
 
+
+### Listagem Incrições:
+
 <div align="center">
   <sub>Listagem Inscrições</sub><br>
   <img src="../assets/ListagemInscricoes.png" width="80%" 
   alt="Página Listagem Inscrições"><br>
   <sup>Fonte: da própria autora</sup>
 </div>
-
-### Listagem Incrições:
 
 A tela de inscrições exibe todas as inscrições relacionadas a um evento específico. Ela foi projetada com foco na organização visual e facilidade de acesso às ações de edição e exclusão.
 
@@ -215,6 +216,7 @@ A tela de inscrições exibe todas as inscrições relacionadas a um evento espe
 ### Navegação:
 - Botão "Voltar" no topo da página retorna à tela anterior.
 
+### Listagem Usuários:
 
 <div align="center">
   <sub>Listagem Usuários</sub><br>
@@ -222,8 +224,6 @@ A tela de inscrições exibe todas as inscrições relacionadas a um evento espe
   alt="Página Listagem de Usuarios"><br>
   <sup>Fonte: da própria autora</sup>
 </div>
-
-### Listagem Usuários:
 
 A tela de listagem de inscrições apresenta todas as inscrições realizadas para um evento específico. Ela tem como objetivo permitir a visualização das inscrições e a realização de ações como editar, excluir e cadastrar uma nova.
 
