@@ -241,7 +241,9 @@ As telas desenvolvidas nesta aplicação foram projetadas para oferecer clareza,
 
 A tela de listagem de inscrições apresenta um design moderno e organizado, mostrando informações essenciais como data, horário, status e ID do usuário, além de botões para editar, excluir e navegar facilmente entre as funcionalidades. A tela de inscrição facilita o cadastro dos participantes, com o ID do evento passado automaticamente, garantindo precisão e simplicidade no preenchimento.
 
-No módulo de eventos, as telas de listagem, cadastro e edição exibem informações claras e formulários objetivos, permitindo um gerenciamento ágil e seguro dos eventos. Todas as telas formam um conjunto coerente e funcional, focado na experiência do usuário e na robustez do sistema.
+No módulo de eventos, as telas de listagem, cadastro e edição exibem informações claras e formulários objetivos, permitindo um gerenciamento ágil e seguro dos eventos. 
+
+As telas da aplicação oferecem uma experiência clara e funcional, facilitando o cadastro e o gerenciamento de eventos e inscrições. Com boa integração ao backend, garantem a segurança e a consistência dos dados, atendendo de forma eficaz as necessidades dos usuários.
 
 ---
 
