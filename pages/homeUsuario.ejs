@@ -6,11 +6,13 @@
   <title>Lista de Usuários</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
     body {
-      background-color: #f0f2f5;
-      padding: 20px 15px;
+      background-color: #f8fafc;
+      padding: 30px 20px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
     }
 
     .container {
@@ -34,32 +36,95 @@
       color: #222;
     }
 
-    #usuariosTable th,
-    #usuariosTable td {
-      vertical-align: middle;
-      text-align: center;
-      font-size: 0.95rem;
-      color: #444;
+    /* Melhor exibição da tabela */
+    #usuariosTable {
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      width: 100%;
     }
 
-    #usuariosTable thead {
+    #usuariosTable thead th {
       background-color: #e9ecef;
       font-weight: 600;
       color: #555;
+      padding: 12px 15px;
+      border-radius: 8px;
+      text-align: center;
     }
 
+    #usuariosTable tbody tr {
+      background-color: #fefefe;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    #usuariosTable tbody tr:hover {
+      background-color: #f1f5f9;
+    }
+
+    #usuariosTable tbody td {
+      padding: 12px 15px;
+      vertical-align: middle;
+      text-align: center;
+      color: #444;
+      font-size: 0.95rem;
+    }
+
+    /* Deixar colunas de senha e ações com largura fixa para evitar deformar */
+    #usuariosTable tbody td:nth-child(3) {
+      font-family: monospace;
+      letter-spacing: 0.05em;
+      width: 180px;
+    }
+
+    #usuariosTable tbody td:nth-child(4),
+    #usuariosTable tbody td:nth-child(5) {
+      width: 60px;
+    }
+
+    /* Botão azul padrão bootstrap (voltar) */
+    .btn-voltar {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #3b82f6;
+      background-color: #e0e7ff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.15s ease;
+      user-select: none;
+    }
+
+    .btn-voltar:hover {
+      background-color: #c7d2fe;
+      color: #1e40af;
+      transform: translateY(-2px);
+    }
+
+    .btn-voltar i {
+      font-size: 1.3rem;
+    }
+
+    /* Botões ícones */
     .btn-icon {
       background: transparent;
       border: none;
       padding: 4px;
       cursor: pointer;
       transition: transform 0.15s ease;
+      color: #555;
     }
 
     .btn-icon:hover {
-      transform: scale(1.15);
+      color: #0d6efd;
+      transform: scale(1.2);
     }
 
+    /* Formulário de edição */
     #editarUsuarioContainer {
       margin-top: 40px;
       background-color: #fafafa;
@@ -67,33 +132,7 @@
       border-radius: 10px;
       box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
     }
-
-    /* Botão Voltar */
-    .btn-voltar {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 20px;
-      font-weight: 600;
-      color: #495057;
-      background-color: #e2e6ea;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 14px;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-      user-select: none;
-    }
-
-    .btn-voltar:hover {
-      background-color: #d3d9df;
-    }
-
-    .btn-voltar i {
-      font-size: 1.2rem;
-    }
   </style>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -108,8 +147,8 @@
       <button class="btn btn-primary" onclick="cadastrarUsuario()">Cadastrar Usuário</button>
     </div>
 
-    <table class="table table-bordered table-hover" id="usuariosTable">
-      <thead class="table-light">
+    <table class="table" id="usuariosTable">
+      <thead>
         <tr>
           <th>Nome Usuário</th>
           <th>Email</th>
@@ -172,13 +211,13 @@
               <td>${usuario.email}</td>
               <td>${usuario.senha}</td>
               <td>
-                <button class="btn-icon" onclick="editarUsuario('${usuario.id}')">
-                  <img src="../../assets/lapis.png" alt="Editar" width="24">
+                <button class="btn-icon" onclick="editarUsuario('${usuario.id}')" title="Editar usuário">
+                  <img src="../../assets/lapis.png" alt="Editar" width="24" height="24">
                 </button>
               </td>
               <td>
-                <button class="btn-icon" onclick="deletarUsuario('${usuario.id}')">
-                  <img src="../../assets/lixeira.png" alt="Excluir" width="24">
+                <button class="btn-icon" onclick="deletarUsuario('${usuario.id}')" title="Excluir usuário">
+                  <img src="../../assets/lixeira.png" alt="Excluir" width="24" height="24">
                 </button>
               </td>
             `;
@@ -237,6 +276,7 @@
         document.getElementById('senha').value = usuario.senha;
 
         document.getElementById('editarUsuarioContainer').style.display = 'block';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       } catch (error) {
         console.error(error);
         Swal.fire({
