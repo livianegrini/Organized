@@ -64,13 +64,20 @@
 </head>
 
 <body>
-  <div class="bg-primary text-white p-4 mb-4">
-    <div class="container d-flex flex-wrap justify-content-center justify-content-md-end gap-2" id="headerButtons">
-      <!-- Botões só aparecerão via JS se for admin -->
+  <!-- Cabeçalho azul com botões -->
+  <div class="bg-primary text-white p-4 mb-4 d-flex justify-content-between align-items-center">
+    <div class="container d-flex flex-wrap gap-2" id="headerButtons">
+      <!-- Botões aparecerão aqui se for admin -->
+    </div>
+    <div class="container d-flex justify-content-end">
+      <button class="btn btn-light" onclick="sair()">
+        <i class="bi bi-box-arrow-right"></i> Sair
+      </button>
     </div>
   </div>
 
   <div class="container pt-4">
+    <!-- Título principal -->
     <h2 class="fw-bold text-primary mb-4">Eventos Disponíveis</h2>
   </div>
 
@@ -85,21 +92,39 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    const usuario = JSON.parse(localStorage.getItem('usuario')) || { tipo: 'normal' };
-
     function isValidDate(d) {
       return d instanceof Date && !isNaN(d);
     }
 
-    function montarHeader() {
-      if (usuario.tipo === 'admin') {
-        const header = document.getElementById('headerButtons');
-        header.innerHTML = `
+    function sair() {
+      localStorage.clear();
+      window.location.href = '/'; 
+    }
+
+    function mostrarBotoesAdmin() {
+      const usuarioJSON = localStorage.getItem('usuario');
+      if (!usuarioJSON) {
+        // Se não tem usuário, redireciona para login
+        window.location.href = '/login';
+        return false;
+      }
+
+      const usuario = JSON.parse(usuarioJSON);
+      const ehAdmin = usuario.tipo === 'admin';
+
+      const headerButtons = document.getElementById('headerButtons');
+      headerButtons.innerHTML = ''; // limpa
+
+      if (ehAdmin) {
+        // Botões visíveis só para admin
+        headerButtons.innerHTML = `
           <button class="btn btn-light" onclick="cadastrarEvento()">Cadastrar Evento</button>
           <button class="btn btn-light" onclick="cadastrarUsuario()">Cadastrar Usuário</button>
           <button class="btn btn-light" onclick="listarInscricoes()">Listar Inscrição</button>
         `;
       }
+
+      return ehAdmin;
     }
 
     async function listarEventos() {
@@ -123,6 +148,8 @@
         const container = document.getElementById('eventosContainer');
         container.innerHTML = '';
 
+        const ehAdmin = mostrarBotoesAdmin();
+
         if (eventos.length > 0) {
           eventos.forEach(evento => {
             const dataFormatada = new Date(evento.data).toLocaleDateString('pt-BR', {
@@ -141,19 +168,24 @@
                 <div class="evento-nome">${evento.nome_evento}</div>
                 <div class="evento-local">${evento.local || '-'}</div>
                 <div class="d-flex justify-content-between align-items-center">
-                  ${usuario.tipo !== 'admin' ? `
-                    <button class="btn btn-outline-primary btn-sm" onclick="inscrever('${evento.id}')">
-                      Inscrever
-                    </button>` : '<div></div>'}
-                  ${usuario.tipo === 'admin' ? `
-                    <div>
-                      <button class="btn btn-outline-secondary btn-icon me-2" onclick="editarEvento('${evento.id}')" title="Editar">
-                        <i class="bi bi-pencil-fill"></i>
-                      </button>
-                      <button class="btn btn-outline-danger btn-icon" onclick="deletarEvento('${evento.id}')" title="Excluir">
-                        <i class="bi bi-trash-fill"></i>
-                      </button>
-                    </div>` : ''}
+                  ${
+                    !ehAdmin
+                      ? `<button class="btn btn-outline-primary btn-sm" onclick="inscrever('${evento.id}')">Inscrever</button>`
+                      : ''
+                  }
+                  <div>
+                    ${
+                      ehAdmin
+                        ? `
+                        <button class="btn btn-outline-secondary btn-icon me-2" onclick="editarEvento('${evento.id}')" title="Editar">
+                          <i class="bi bi-pencil-fill"></i>
+                        </button>
+                        <button class="btn btn-outline-danger btn-icon" onclick="deletarEvento('${evento.id}')" title="Excluir">
+                          <i class="bi bi-trash-fill"></i>
+                        </button>`
+                        : ''
+                    }
+                  </div>
                 </div>
               </div>
             `;
@@ -215,7 +247,6 @@
       }
     }
 
-    montarHeader();
     listarEventos();
   </script>
 </body>

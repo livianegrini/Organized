@@ -68,7 +68,7 @@
         if (!response.ok) throw new Error(await response.text());
 
         Swal.fire("Sucesso", "Inscrição realizada com sucesso!", "success")
-          .then(() => window.location.href = "homeInscricao");
+          .then(() => window.location.href = "home");
       } catch (error) {
         console.error(error);
         Swal.fire("Erro", "Erro ao salvar inscrição.", "error");
