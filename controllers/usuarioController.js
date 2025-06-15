@@ -45,10 +45,22 @@ async function excluirUsuario(req, res) {
   }
 }
 
+async function login(req, res) {
+  try {
+    const { email, senha } = req.body;
+    const resultado = await usuarioService.login(email, senha);
+    res.status(200).json(resultado);
+  } catch (err) {
+    res.status(401).json({ error: err.message });
+  }
+}
+
+
 module.exports = {
   criarUsuario,
   listarUsuarios,
   listarPorId,
   editarUsuario,
-  excluirUsuario
+  excluirUsuario,
+  login
 };

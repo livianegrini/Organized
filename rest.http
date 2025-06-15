@@ -9,8 +9,8 @@ POST http://localhost:3000/api/usuario
 Content-Type: application/json
 
 {
-  "nome": "Gabrielle",
-  "email": "gabrielle@gmail.com",
+  "nome": "Valter",
+  "email": "valter@gmail.com",
   "senha": "123456"
 }
 
@@ -97,3 +97,13 @@ Content-Type: application/json
 
 ### Deletar inscrição
 DELETE http://localhost:3000/api/inscricao/24142e39-e9f8-4eda-9626-d99cdb4df100
+
+### Fazer login
+POST http://localhost:3000/api/usuario/login
+Content-Type: application/json
+  
+{
+  "email": "lana@gmail.com",
+  "senha": "1234567"
+}
+

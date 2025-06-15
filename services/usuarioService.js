@@ -1,4 +1,5 @@
 const usuarioRepo = require('../repositories/usuarioRepository');
+const jwt = require('jsonwebtoken');
 
 const NOMES_RESERVADOS = new Set(['admin', 'root', 'superuser']);
 const DOMINIOS_PERMITIDOS = ['gmail.com', 'outlook.com', 'hotmail.com'];
@@ -27,6 +28,8 @@ async function criarUsuario(dados) {
   validarNome(dados.nome);
   validarDominioEmail(dados.email);
   await validarEmailUnico(dados.email);
+
+  // **SEM criptografia**, salva senha direto
   return usuarioRepo.criar(dados);
 }
 
@@ -44,6 +47,7 @@ async function atualizarUsuario(id, dados) {
   validarNome(dados.nome);
   validarDominioEmail(dados.email);
   await validarEmailUnico(dados.email, parseInt(id));
+
   const atualizado = await usuarioRepo.atualizar(id, dados);
   if (!atualizado) throw new Error('Usuário não encontrado');
   return atualizado;
@@ -55,10 +59,32 @@ async function excluirUsuario(id) {
   return excluido;
 }
 
+async function login(email, senha) {
+  const usuario = await usuarioRepo.buscarPorEmail(email);
+  if (!usuario) {
+    throw new Error('E-mail ou senha inválidos');
+  }
+
+  if (senha !== usuario.senha) {
+    throw new Error('E-mail ou senha inválidos');
+  }
+
+  // Retorna só o usuário, sem token
+  return {
+    usuario: {
+      id: usuario.id,
+      nome: usuario.nome,
+      email: usuario.email
+    }
+  };
+}
+
+
 module.exports = {
   criarUsuario,
   listarUsuarios,
   buscarUsuarioPorId,
   atualizarUsuario,
-  excluirUsuario
+  excluirUsuario,
+  login
 };

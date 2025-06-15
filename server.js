@@ -13,6 +13,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'pages')); // Define o diretório das views para a pasta 'pages'
@@ -26,8 +27,13 @@ app.use('/api', inscricaoRoutes);
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 app.get('/', (req, res) => {
+  res.render('login');
+});
+
+app.get('/home', (req, res) => {
   res.render('home');
 });
+
 
 app.get('/cadastro', (req, res) => {
   res.render('cadastro');

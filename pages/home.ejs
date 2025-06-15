@@ -64,17 +64,13 @@
 </head>
 
 <body>
-  <!-- Cabeçalho azul com botões -->
   <div class="bg-primary text-white p-4 mb-4">
-    <div class="container d-flex flex-wrap justify-content-center justify-content-md-end gap-2">
-      <button class="btn btn-light" onclick="cadastrarEvento()">Cadastrar Evento</button>
-      <button class="btn btn-light" onclick="cadastrarUsuario()">Cadastrar Usuário</button>
-      <button class="btn btn-light" onclick="listarInscricoes()">Listar Inscrição</button>
+    <div class="container d-flex flex-wrap justify-content-center justify-content-md-end gap-2" id="headerButtons">
+      <!-- Botões só aparecerão via JS se for admin -->
     </div>
   </div>
 
   <div class="container pt-4">
-    <!-- Título principal -->
     <h2 class="fw-bold text-primary mb-4">Eventos Disponíveis</h2>
   </div>
 
@@ -89,8 +85,21 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
+    const usuario = JSON.parse(localStorage.getItem('usuario')) || { tipo: 'normal' };
+
     function isValidDate(d) {
       return d instanceof Date && !isNaN(d);
+    }
+
+    function montarHeader() {
+      if (usuario.tipo === 'admin') {
+        const header = document.getElementById('headerButtons');
+        header.innerHTML = `
+          <button class="btn btn-light" onclick="cadastrarEvento()">Cadastrar Evento</button>
+          <button class="btn btn-light" onclick="cadastrarUsuario()">Cadastrar Usuário</button>
+          <button class="btn btn-light" onclick="listarInscricoes()">Listar Inscrição</button>
+        `;
+      }
     }
 
     async function listarEventos() {
@@ -101,7 +110,7 @@
         const eventosRaw = await response.json();
 
         const hoje = new Date();
-        hoje.setHours(0, 0, 0, 0); // Zera a hora para considerar só a data
+        hoje.setHours(0, 0, 0, 0);
 
         const eventos = eventosRaw
           .filter(e => {
@@ -127,25 +136,28 @@
             col.className = 'col-md-6 col-lg-4 mb-4';
 
             col.innerHTML = `
-          <div class="evento-card">
-            <div class="evento-data">${dataFormatada}</div>
-            <div class="evento-nome">${evento.nome_evento}</div>
-            <div class="evento-local">${evento.local || '-'}</div>
-            <div class="d-flex justify-content-between align-items-center">
-              <button class="btn btn-outline-primary btn-sm" onclick="inscrever('${evento.id}')">
-                Inscrever
-              </button>
-              <div>
-                <button class="btn btn-outline-secondary btn-icon me-2" onclick="editarEvento('${evento.id}')" title="Editar">
-                  <i class="bi bi-pencil-fill"></i>
-                </button>
-                <button class="btn btn-outline-danger btn-icon" onclick="deletarEvento('${evento.id}')" title="Excluir">
-                  <i class="bi bi-trash-fill"></i>
-                </button>
+              <div class="evento-card">
+                <div class="evento-data">${dataFormatada}</div>
+                <div class="evento-nome">${evento.nome_evento}</div>
+                <div class="evento-local">${evento.local || '-'}</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  ${usuario.tipo !== 'admin' ? `
+                    <button class="btn btn-outline-primary btn-sm" onclick="inscrever('${evento.id}')">
+                      Inscrever
+                    </button>` : '<div></div>'}
+                  ${usuario.tipo === 'admin' ? `
+                    <div>
+                      <button class="btn btn-outline-secondary btn-icon me-2" onclick="editarEvento('${evento.id}')" title="Editar">
+                        <i class="bi bi-pencil-fill"></i>
+                      </button>
+                      <button class="btn btn-outline-danger btn-icon" onclick="deletarEvento('${evento.id}')" title="Excluir">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </div>` : ''}
+                </div>
               </div>
-            </div>
-          </div>
-        `;
+            `;
+
             container.appendChild(col);
           });
         } else {
@@ -170,11 +182,11 @@
       window.location.href = `/cadastroInscricao?eventoId=${id}`;
     }
 
-    async function editarEvento(id) {
+    function editarEvento(id) {
       window.location.href = `/editarEvento/${id}`;
     }
 
-    async function listarInscricoes() {
+    function listarInscricoes() {
       window.location.href = '/homeInscricao';
     }
 
@@ -203,6 +215,7 @@
       }
     }
 
+    montarHeader();
     listarEventos();
   </script>
 </body>
