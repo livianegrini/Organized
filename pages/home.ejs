@@ -92,35 +92,36 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    function isValidDate(d) {
-      return d instanceof Date && !isNaN(d);
-    }
-
     function sair() {
       localStorage.clear();
-      window.location.href = '/'; 
+      window.location.href = '/'; // login
     }
 
     function mostrarBotoesAdmin() {
       const usuarioJSON = localStorage.getItem('usuario');
       if (!usuarioJSON) {
-        // Se não tem usuário, redireciona para login
         window.location.href = '/login';
         return false;
       }
 
       const usuario = JSON.parse(usuarioJSON);
+
+      if (usuario.email && usuario.email.toLowerCase() === 'adm@gmail.com') {
+        usuario.tipo = 'admin'; // força admin
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+      }
+
       const ehAdmin = usuario.tipo === 'admin';
 
       const headerButtons = document.getElementById('headerButtons');
-      headerButtons.innerHTML = ''; // limpa
+      headerButtons.innerHTML = '';
 
       if (ehAdmin) {
-        // Botões visíveis só para admin
         headerButtons.innerHTML = `
           <button class="btn btn-light" onclick="cadastrarEvento()">Cadastrar Evento</button>
           <button class="btn btn-light" onclick="cadastrarUsuario()">Cadastrar Usuário</button>
-          <button class="btn btn-light" onclick="listarInscricoes()">Listar Inscrição</button>
+          <button class="btn btn-light" onclick="listarUsuarios()">Listar Usuários</button>
+          <button class="btn btn-light" onclick="listarInscricoes()">Listar Inscrições</button>
         `;
       }
 
@@ -141,7 +142,7 @@
           .filter(e => {
             const dataEvento = new Date(e.data);
             dataEvento.setHours(0, 0, 0, 0);
-            return isValidDate(dataEvento) && dataEvento >= hoje;
+            return dataEvento >= hoje;
           })
           .sort((a, b) => new Date(a.data) - new Date(b.data));
 
@@ -168,23 +169,21 @@
                 <div class="evento-nome">${evento.nome_evento}</div>
                 <div class="evento-local">${evento.local || '-'}</div>
                 <div class="d-flex justify-content-between align-items-center">
-                  ${
-                    !ehAdmin
-                      ? `<button class="btn btn-outline-primary btn-sm" onclick="inscrever('${evento.id}')">Inscrever</button>`
-                      : ''
-                  }
+                  ${!ehAdmin
+                ? `<button class="btn btn-outline-primary btn-sm" onclick="inscrever('${evento.id}')">Inscrever</button>`
+                : ''
+              }
                   <div>
-                    ${
-                      ehAdmin
-                        ? `
+                    ${ehAdmin
+                ? `
                         <button class="btn btn-outline-secondary btn-icon me-2" onclick="editarEvento('${evento.id}')" title="Editar">
                           <i class="bi bi-pencil-fill"></i>
                         </button>
                         <button class="btn btn-outline-danger btn-icon" onclick="deletarEvento('${evento.id}')" title="Excluir">
                           <i class="bi bi-trash-fill"></i>
                         </button>`
-                        : ''
-                    }
+                : ''
+              }
                   </div>
                 </div>
               </div>
@@ -213,13 +212,17 @@
     function inscrever(id) {
       window.location.href = `/cadastroInscricao?eventoId=${id}`;
     }
-
+    
     function editarEvento(id) {
       window.location.href = `/editarEvento/${id}`;
     }
 
     function listarInscricoes() {
       window.location.href = '/homeInscricao';
+    }
+
+    function listarUsuarios() {
+      window.location.href = '/homeUsuario';
     }
 
     async function deletarEvento(id) {
@@ -243,7 +246,10 @@
           listarEventos();
         } catch (error) {
           await Swal.fire('Erro', "Erro ao excluir evento: " + error.message, 'error');
+          window.location.href = '/home';
         }
+      } else {
+        window.location.href = '/home';
       }
     }
 

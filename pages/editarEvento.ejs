@@ -60,7 +60,7 @@
       } catch (error) {
         console.error(error);
         Swal.fire("Erro", error.message, "error").then(() => {
-          window.location.href = "/";
+          window.location.href = "/home";
         });
       }
     }
@@ -97,7 +97,7 @@
         }
 
         Swal.fire('Sucesso', 'Evento atualizado com sucesso!', 'success').then(() => {
-          window.location.href = "/"; // redireciona para a lista ou home
+          window.location.href = "/home"; // redireciona para a lista ou home
         });
       } catch (error) {
         console.error(error);
