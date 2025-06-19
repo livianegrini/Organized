@@ -32,7 +32,7 @@
   <script>
     function obterInscricaoIdDaURL() {
       const partes = window.location.pathname.split('/');
-      return partes[2]; // espera URL como /editarInscricao/:id
+      return partes[2]; 
     }
 
     async function carregarInscricao() {
@@ -44,7 +44,6 @@
 
         const inscricao = await response.json();
 
-        // Corrigindo o formato da data para o campo type="date"
         document.getElementById('data').value = inscricao.data.split('T')[0];
         document.getElementById('status').value = inscricao.status;
         document.getElementById('id_usuario').value = inscricao.id_usuario;

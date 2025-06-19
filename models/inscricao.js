@@ -1,11 +1,12 @@
-class Inscricao {
-  constructor({ id, data, status, id_usuario, id_evento }) {
-    this.id = id;
-    this.data = data;
-    this.status = status;
-    this.id_usuario = id_usuario;
-    this.id_evento = id_evento;
-  }
-}
+// models/inscricaoModel.js
+const Joi = require('joi');
 
-module.exports = Inscricao;
+const schema = Joi.object({
+  id: Joi.number().integer().positive(),
+  data: Joi.date().required(),
+  status: Joi.string().valid('pendente', 'confirmada', 'cancelada').required(),
+  id_usuario: Joi.number().integer().positive().required(),
+  id_evento: Joi.number().integer().positive().required()
+});
+
+module.exports = schema;

@@ -34,7 +34,6 @@
 
 <body>
 
-  <!-- Botão Voltar -->
   <div class="mb-4 text-start">
     <button class="btn btn-outline-primary" onclick="window.location.href='/home'">
       &larr; Voltar
@@ -87,7 +86,6 @@
         return;
       }
 
-      // Corrigir fuso horário: converter para ISO sem offset
       const data = new Date(dataInput);
       const dataCorrigida = new Date(data.getTime() - data.getTimezoneOffset() * 60000).toISOString();
 

@@ -36,7 +36,6 @@
             color: #222;
         }
 
-        /* Melhor exibição da tabela */
         #usuariosTable {
             border-collapse: separate;
             border-spacing: 0 10px;
@@ -70,7 +69,6 @@
             font-size: 0.95rem;
         }
 
-        /* Deixar colunas de senha e ações com largura fixa para evitar deformar */
         #usuariosTable tbody td:nth-child(3) {
             font-family: monospace;
             letter-spacing: 0.05em;
@@ -82,7 +80,6 @@
             width: 60px;
         }
 
-        /* Botão azul padrão bootstrap (voltar) */
         .btn-voltar {
             display: inline-flex;
             align-items: center;
@@ -109,7 +106,6 @@
             font-size: 1.3rem;
         }
 
-        /* Botões ícones */
         .btn-icon {
             background: transparent;
             border: none;
@@ -236,7 +232,6 @@
             window.location.href = '/cadastroUsuario';
         }
 
-        // Renomeei a função e adicionei a lógica do SweetAlert2
         async function confirmarDeletarUsuario(id) {
             Swal.fire({
                 title: 'Tem certeza?',
@@ -363,7 +358,6 @@
             document.getElementById('editarUsuarioContainer').style.display = 'none';
         }
 
-        // Carrega os usuários quando a página é carregada
         listarUsuarios();
     </script>
 </body>
