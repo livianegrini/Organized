@@ -253,6 +253,8 @@ As telas da aplicação oferecem uma experiência clara e funcional, facilitando
 
 *VIDEO: Link do vídeo demonstrativo nesta seção*
 
+https://www.youtube.com/watch?v=fMKp5v2Ean4 
+
 
 ### 4.2 Conclusões e Trabalhos Futuros (Semana 8)
 
