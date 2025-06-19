@@ -1,4 +1,3 @@
-<!-- inscricoes.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -9,31 +8,57 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
   <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .titulo-principal {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #0d6efd;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
     .inscricao-item {
-      background-color: #fff;
-      border-radius: 12px;
+      background-color: #ffffff;
+      border-radius: 16px;
       padding: 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      transition: 0.2s;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      transition: transform 0.2s ease-in-out;
     }
 
     .inscricao-item:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .badge-status {
+      font-size: 0.85rem;
+      padding: 0.4em 0.6em;
+    }
+
+    .btn-voltar {
+      margin-bottom: 20px;
     }
   </style>
 </head>
 
-<body class="bg-light">
+<body>
   <div class="container py-5">
 
     <!-- Botão Voltar -->
-    <div class="mb-4 text-start">
+    <div class="btn-voltar">
       <button class="btn btn-outline-primary" onclick="window.location.href='/home'">
         &larr; Voltar
       </button>
     </div>
 
+    <!-- Título -->
+    <h1 class="titulo-principal">Inscrições</h1>
+
+    <!-- Lista de inscrições -->
     <div id="inscricoesContainer">
       <div class="text-center text-muted">Carregando inscrições...</div>
     </div>
@@ -63,13 +88,15 @@
 
           const item = document.createElement("div");
           item.className = "inscricao-item d-flex justify-content-between align-items-start flex-wrap";
+
           item.innerHTML = `
             <div>
               <h5 class="mb-1">${dataFormatada}</h5>
               <p class="mb-1">
-                <span class="badge bg-warning text-dark">${inscricao.status}</span>
+                <span class="badge bg-warning text-dark badge-status">${inscricao.status}</span>
               </p>
               <p class="text-muted small mb-0">Usuário: ${inscricao.id_usuario}</p>
+              // <p class="text-muted small mb-0">Evento: ${inscricao.evento?.nome_evento || 'Evento não encontrado'}</p>
             </div>
             <div class="d-flex gap-2 mt-2 mt-md-0">
               <button class="btn btn-sm btn-outline-primary" onclick="editarInscricao('${inscricao.id}')">

@@ -60,24 +60,26 @@
     .btn-light:hover {
       background-color: #e2e6ea;
     }
+
+    #headerButtons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
   </style>
 </head>
 
 <body>
   <!-- Cabeçalho azul com botões -->
   <div class="bg-primary text-white p-4 mb-4 d-flex justify-content-between align-items-center">
-    <div class="container d-flex flex-wrap gap-2" id="headerButtons">
-      <!-- Botões aparecerão aqui se for admin -->
-    </div>
-    <div class="container d-flex justify-content-end">
-      <button class="btn btn-light" onclick="sair()">
-        <i class="bi bi-box-arrow-right"></i> Sair
-      </button>
-    </div>
+    <div id="headerButtons"></div>
+    <button class="btn btn-light" onclick="sair()">
+      <i class="bi bi-box-arrow-right"></i> Sair
+    </button>
   </div>
 
   <div class="container pt-4">
-    <!-- Título principal -->
     <h2 class="fw-bold text-primary mb-4">Eventos Disponíveis</h2>
   </div>
 
@@ -94,7 +96,7 @@
   <script>
     function sair() {
       localStorage.clear();
-      window.location.href = '/'; // login
+      window.location.href = '/';
     }
 
     function mostrarBotoesAdmin() {
@@ -107,7 +109,7 @@
       const usuario = JSON.parse(usuarioJSON);
 
       if (usuario.email && usuario.email.toLowerCase() === 'adm@gmail.com') {
-        usuario.tipo = 'admin'; // força admin
+        usuario.tipo = 'admin';
         localStorage.setItem('usuario', JSON.stringify(usuario));
       }
 
@@ -153,7 +155,10 @@
 
         if (eventos.length > 0) {
           eventos.forEach(evento => {
-            const dataFormatada = new Date(evento.data).toLocaleDateString('pt-BR', {
+            const data = new Date(evento.data);
+            data.setMinutes(data.getMinutes() + data.getTimezoneOffset()); // ⚠️ Corrige o fuso horário
+
+            const dataFormatada = data.toLocaleDateString('pt-BR', {
               weekday: 'short',
               day: '2-digit',
               month: 'short',
@@ -170,20 +175,20 @@
                 <div class="evento-local">${evento.local || '-'}</div>
                 <div class="d-flex justify-content-between align-items-center">
                   ${!ehAdmin
-                ? `<button class="btn btn-outline-primary btn-sm" onclick="inscrever('${evento.id}')">Inscrever</button>`
-                : ''
-              }
+                    ? `<button class="btn btn-outline-primary btn-sm" onclick="inscrever('${evento.id}')">Inscrever</button>`
+                    : ''
+                  }
                   <div>
                     ${ehAdmin
-                ? `
+                      ? `
                         <button class="btn btn-outline-secondary btn-icon me-2" onclick="editarEvento('${evento.id}')" title="Editar">
                           <i class="bi bi-pencil-fill"></i>
                         </button>
                         <button class="btn btn-outline-danger btn-icon" onclick="deletarEvento('${evento.id}')" title="Excluir">
                           <i class="bi bi-trash-fill"></i>
                         </button>`
-                : ''
-              }
+                      : ''
+                    }
                   </div>
                 </div>
               </div>
@@ -210,9 +215,10 @@
     }
 
     function inscrever(id) {
-      window.location.href = `/cadastroInscricao?eventoId=${id}`;
+      localStorage.setItem("id_evento", id);
+      window.location.href = "/cadastroInscricao";
     }
-    
+
     function editarEvento(id) {
       window.location.href = `/editarEvento/${id}`;
     }

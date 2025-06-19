@@ -251,15 +251,16 @@ As telas da aplicação oferecem uma experiência clara e funcional, facilitando
 
 ### 4.1 Demonstração do Sistema Web (Semana 8)
 
-*VIDEO: Insira o link do vídeo demonstrativo nesta seção*
-*Descreva e ilustre aqui o desenvolvimento do sistema web completo, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+*VIDEO: Link do vídeo demonstrativo nesta seção*
+
 
 ### 4.2 Conclusões e Trabalhos Futuros (Semana 8)
 
-*Indique pontos fortes e pontos a melhorar de maneira geral.*
-*Relacione também quaisquer outras ideias que você tenha para melhorias futuras.*
+Durante esta etapa do projeto, implementei o sistema de login, que agora autentica os usuários e, dependendo do tipo de usuário, realiza o redirecionamento para interfaces específicas de eventos, garantindo uma experiência personalizada para cada perfil.
 
+Atualmente, todas as funcionalidades principais estão funcionando corretamente, porém ainda existem alguns detalhes a serem ajustados. Um exemplo é a atualização da data dos eventos, que está sendo exibida incorretamente no card de edição, mostrando um dia a menos do que o correto.
 
+Para trabalhos futuros, pretendo implementar a funcionalidade de exibir os eventos relacionados diretamente na listagem das inscrições, facilitando a visualização e o gerenciamento das inscrições pelos usuários. Além disso, planejo corrigir os pequenos bugs identificados e aprimorar a interface para torná-la ainda mais intuitiva e responsiva.
 
 ## <a name="c5"></a>5. Referências
 

@@ -59,10 +59,22 @@
     .btn:hover {
       background-color: #0052cc;
     }
+    .register-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+    }
+    .register-link a {
+      color: #0066ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .register-link a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-
   <div class="container">
     <h1>Login</h1>
     <form id="loginForm">
@@ -76,6 +88,9 @@
       </div>
       <button type="submit" class="btn">Entrar</button>
     </form>
+    <div class="register-link">
+      Não tem uma conta? <a href="/cadastroUsuario?from=login">Cadastre-se aqui</a>
+    </div>
   </div>
 
   <script>
@@ -109,6 +124,5 @@
       }
     });
   </script>
-
 </body>
 </html>

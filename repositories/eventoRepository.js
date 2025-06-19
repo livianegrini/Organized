@@ -18,13 +18,19 @@ async function criar(evento) {
   return result.rows[0];
 }
 
+// async function listarTodos() {
+//   const result = await pool.query('SELECT id, nome_evento, data, local, descricao FROM evento');
+//   return result.rows;
+// }
+
 async function listarTodos() {
-  const result = await pool.query('SELECT * FROM evento');
+  const result = await pool.query('SELECT id, nome_evento, data, local, descricao FROM evento');
   return result.rows;
 }
 
+
 async function buscarPorId(id) {
-  const result = await pool.query('SELECT * FROM evento WHERE id = $1', [id]);
+  const result = await pool.query('SELECT id, nome_evento, data, local, descricao FROM evento WHERE id = $1', [id]);
   return result.rows[0];
 }
 

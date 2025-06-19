@@ -36,10 +36,9 @@
     </button>
   </div>
 
-
   <h2>Cadastrar Usuário</h2>
 
-  <form onsubmit="cadastrarUsuario(event)">
+  <form id="formCadastro">
     <div class="mb-3">
       <label for="nome" class="form-label">Nome</label>
       <input type="text" class="form-control" id="nome" required />
@@ -61,12 +60,12 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    async function cadastrarUsuario(e) {
+    document.getElementById('formCadastro').addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      const nome = document.querySelector('#nome').value.trim();
-      const email = document.querySelector('#email').value.trim();
-      const senha = document.querySelector('#senha').value;
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const senha = document.getElementById('senha').value;
 
       if (!nome || !email || !senha) {
         Swal.fire({
@@ -97,7 +96,14 @@
           showConfirmButton: false
         });
 
-        window.location.href = '/homeUsuario';
+        const params = new URLSearchParams(window.location.search);
+        const from = params.get('from');
+
+        if (from === 'login') {
+          window.location.href = '/';
+        } else {
+          window.location.href = '/homeUsuario';
+        }
       } catch (error) {
         console.error(error);
         Swal.fire({
@@ -106,7 +112,7 @@
           text: error.message || 'Erro ao cadastrar usuário'
         });
       }
-    }
+    });
   </script>
 </body>
 

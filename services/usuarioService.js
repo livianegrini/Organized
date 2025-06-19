@@ -1,4 +1,5 @@
-const usuarioRepo = require('../repositories/usuarioRepository');
+const usuarioRepo = require('../repositories/usuarioRepository'); // Isso está correto!
+
 const jwt = require('jsonwebtoken');
 
 const NOMES_RESERVADOS = new Set(['admin', 'root', 'superuser']);
@@ -19,7 +20,12 @@ function validarDominioEmail(email) {
 
 async function validarEmailUnico(email, ignorarId = null) {
   const existente = await usuarioRepo.buscarPorEmail(email);
-  if (existente && existente.id !== ignorarId) {
+  // Se o e-mail já existe E não é o mesmo usuário que estamos ignorando
+  if (existente && ignorarId && String(existente.id) !== String(ignorarId)) {
+    throw new Error('E-mail já cadastrado.');
+  }
+
+  if (existente && !ignorarId) {
     throw new Error('E-mail já cadastrado.');
   }
 }
@@ -29,7 +35,6 @@ async function criarUsuario(dados) {
   validarDominioEmail(dados.email);
   await validarEmailUnico(dados.email);
 
-  // **SEM criptografia**, salva senha direto
   return usuarioRepo.criar(dados);
 }
 
@@ -46,9 +51,9 @@ async function buscarUsuarioPorId(id) {
 async function atualizarUsuario(id, dados) {
   validarNome(dados.nome);
   validarDominioEmail(dados.email);
-  await validarEmailUnico(dados.email, parseInt(id));
+  await validarEmailUnico(dados.email, id);
 
-  const atualizado = await usuarioRepo.atualizar(id, dados);
+  const atualizado = await usuarioRepo.atualizar(id, dados); 
   if (!atualizado) throw new Error('Usuário não encontrado');
   return atualizado;
 }
@@ -69,7 +74,6 @@ async function login(email, senha) {
     throw new Error('E-mail ou senha inválidos');
   }
 
-  // Retorna só o usuário, sem token
   return {
     usuario: {
       id: usuario.id,
@@ -79,12 +83,11 @@ async function login(email, senha) {
   };
 }
 
-
 module.exports = {
   criarUsuario,
   listarUsuarios,
   buscarUsuarioPorId,
-  atualizarUsuario,
+  atualizarUsuario, 
   excluirUsuario,
   login
 };

@@ -30,31 +30,33 @@
   </form>
 
   <script>
-    // Pega o ID do evento da URL do tipo /editarEvento/:id
     function obterEventoIdDaURL() {
       const partes = window.location.pathname.split('/');
       return partes[2];
     }
 
+    // Função que ajusta a data para o formato aceito pelo input datetime-local (sem timezone)
+    function ajustarDataParaDatetimeLocal(dataStringUTC) {
+      const data = new Date(dataStringUTC);
+
+      const ano = data.getFullYear();
+      const mes = String(data.getMonth() + 1).padStart(2, '0');
+      const dia = String(data.getDate()).padStart(2, '0');
+      const hora = String(data.getHours()).padStart(2, '0');
+      const minuto = String(data.getMinutes()).padStart(2, '0');
+
+      return `${ano}-${mes}-${dia}T${hora}:${minuto}`;
+    }
+
     async function carregarEvento() {
       try {
         const eventoId = obterEventoIdDaURL();
-        console.log("ID do evento:", eventoId);
-
         const response = await fetch(`/api/evento/${eventoId}`);
         if (!response.ok) throw new Error("Erro ao buscar dados do evento");
-
         const evento = await response.json();
-        console.log("Dados do evento:", evento);
 
         document.getElementById('nome_evento').value = evento.nome_evento;
-
-        // Ajusta o formato da data para datetime-local (YYYY-MM-DDTHH:mm)
-        const dataObj = new Date(evento.data);
-        const tzOffset = dataObj.getTimezoneOffset() * 60000;
-        const localISO = new Date(dataObj - tzOffset).toISOString().slice(0, 16);
-        document.getElementById('data').value = localISO;
-
+        document.getElementById('data').value = ajustarDataParaDatetimeLocal(evento.data);
         document.getElementById('local').value = evento.local;
         document.getElementById('descricao').value = evento.descricao;
       } catch (error) {
@@ -79,15 +81,12 @@
 
       try {
         const response = await fetch(`/api/evento/${eventoId}`, {
-          method: 'PUT', // ou PATCH, depende do backend
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(dadosAtualizados)
         });
 
         if (!response.ok) {
-          // Tenta extrair mensagem de erro da resposta
           let msg = "Erro ao salvar evento";
           try {
             const errData = await response.json();
@@ -97,7 +96,7 @@
         }
 
         Swal.fire('Sucesso', 'Evento atualizado com sucesso!', 'success').then(() => {
-          window.location.href = "/home"; // redireciona para a lista ou home
+          window.location.href = "/home";
         });
       } catch (error) {
         console.error(error);
@@ -105,10 +104,8 @@
       }
     }
 
-    // Configura listener do formulário
     document.getElementById('formEditarEvento').addEventListener('submit', salvarAlteracoes);
 
-    // Carrega os dados quando a página abrir
     carregarEvento();
   </script>
 </body>
